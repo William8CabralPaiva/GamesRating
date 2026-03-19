@@ -70,15 +70,15 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
 
-//    // Koin
-//    implementation(libs.koin.android)
-//
-//    // Retrofit
-//    implementation(libs.retrofit)
-//    implementation(libs.converter.gson)
-//
-//    // OkHttp
-//    implementation(libs.logging.interceptor)
+    // Koin
+    implementation(libs.koin.android)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // OkHttp
+    implementation(libs.logging.interceptor)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

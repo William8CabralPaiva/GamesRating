@@ -34,3 +34,9 @@ fun Game.toGameUi(): GameUi {
     )
 }
 
+fun List<Game>?.toGameUiList(): List<GameUi>? {
+    return this?.map { game ->
+        game.toGameUi()
+    }
+}
+
