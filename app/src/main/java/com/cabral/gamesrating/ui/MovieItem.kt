@@ -27,6 +27,7 @@ import com.cabral.gamesrating.R
 import com.cabral.gamesrating.ui.components.RatingStar
 import com.cabral.gamesrating.ui.model.GameUi
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
+import com.cabral.gamesrating.ui.theme.GreyDarkLight
 import com.cabral.gamesrating.utils.shimmer
 
 @Composable()
@@ -38,11 +39,11 @@ fun MovieItem(
     GamesRatingTheme {
         Surface {
             Card(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.Red
+                    containerColor = GreyDarkLight
                 ),
                 elevation = CardDefaults.cardElevation(20.dp),
             ) {
@@ -112,5 +113,5 @@ fun MovieItemPreview() {
         short_screenshots = listOf(),
         genres = "Ação, Aventura"
     )
-    MovieItem(gameUi, true)
+    MovieItem(gameUi, false)
 }
