@@ -13,6 +13,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    // Adicione os plugins do Hilt e Kapt (ou KSP)
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -72,7 +76,14 @@ dependencies {
     implementation(libs.coil.compose)
 
     // Koin
-    implementation(libs.koin.android)
+    //implementation(libs.koin.android)
+
+    //Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Para integração com ViewModel do Compose
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Retrofit
     implementation(libs.retrofit)

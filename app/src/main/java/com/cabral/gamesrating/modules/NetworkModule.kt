@@ -1,21 +1,30 @@
 package com.cabral.gamesrating.modules
 
 import com.cabral.gamesrating.di.MoviesApi
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-val networkModule = module {
-    // 1. Prover o Retrofit
-    single {
-        Retrofit.Builder()
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
             .baseUrl("https://api.rawg.io/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    // 2. Prover a Interface (O Koin resolve o Retrofit automaticamente com get())
-    single<MoviesApi> {
-        get<Retrofit>().create(MoviesApi::class.java)
+    @Provides
+    @Singleton
+    fun provideMoviesApi(retrofit: Retrofit): MoviesApi {
+        return retrofit.create(MoviesApi::class.java)
     }
 }

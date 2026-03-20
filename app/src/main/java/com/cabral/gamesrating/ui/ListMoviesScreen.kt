@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cabral.gamesrating.R
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme// Caso use TopAppBar depois
 
 @Composable
 fun ListMoviesScreen(
-    sharedViewModel: GamesSharedViewModel,
     modifier: Modifier = Modifier,
+    sharedViewModel: GamesSharedViewModel = hiltViewModel(),
 ) {
     val uiState by sharedViewModel.uiState.collectAsState()
 
