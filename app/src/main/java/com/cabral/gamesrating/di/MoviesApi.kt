@@ -9,7 +9,8 @@ interface MoviesApi {
 
     @GET("games")
     suspend fun getAllGames(
-        @Query("key")
-        key: String,
+        @Query("key") key: String,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int = 20,
     ): Response<GamesResponse?>
 }

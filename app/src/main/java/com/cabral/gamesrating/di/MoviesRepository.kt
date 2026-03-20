@@ -1,9 +1,9 @@
 package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.data.model.GamesResponse
+import androidx.paging.PagingData
+import com.cabral.gamesrating.data.model.Game
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
-
-    fun getAllGames(): Flow<GamesResponse?>
+    fun getAllGames(): Flow<PagingData<Game>>
 }
