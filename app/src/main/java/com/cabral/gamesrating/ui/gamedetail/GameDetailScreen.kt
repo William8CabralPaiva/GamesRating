@@ -69,12 +69,16 @@ fun GameDetailContent(
 }
 
 @Composable
-fun GameDetailLoading(modifier: Modifier = Modifier) {
+fun GameDetailLoading(
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
+            .systemBarsPadding()
             .verticalScroll(rememberScrollState())
     ) {
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,21 +86,54 @@ fun GameDetailLoading(modifier: Modifier = Modifier) {
                 .shimmer()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            items(5) {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+            userScrollEnabled = false // Desabilita scroll no loading se preferir
+        ) {
+            items(10) {
                 Box(
                     modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
+                        .width(64.dp)
+                        .height(64.dp)
                         .shimmer()
                 )
             }
         }
+
+        Column(modifier = Modifier.padding(16.dp)) {
+            Box(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(24.dp)
+                    .shimmer()
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            repeat(3) {
+                Box(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(16.dp)
+                        .shimmer()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            repeat(4) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(16.dp)
+                        .shimmer()
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+        }
     }
 }
-
 
 @Composable
 fun GameDetailSuccess(
