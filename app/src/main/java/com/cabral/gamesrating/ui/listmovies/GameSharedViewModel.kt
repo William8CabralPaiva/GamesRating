@@ -1,4 +1,4 @@
-package com.cabral.gamesrating.ui
+package com.cabral.gamesrating.ui.listmovies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

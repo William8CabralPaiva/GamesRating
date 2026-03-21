@@ -1,8 +1,11 @@
 package com.cabral.gamesrating.di
 
+import com.cabral.gamesrating.data.model.GameDetailResponse
 import com.cabral.gamesrating.data.model.GamesResponse
+import com.cabral.gamesrating.data.model.ScreenshotResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesApi {
@@ -13,4 +16,16 @@ interface MoviesApi {
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int = 20,
     ): Response<GamesResponse?>
+
+    @GET("games/{id}")
+    suspend fun getGameById(
+        @Path("id") id: Int,
+        @Query("key") apiKey: String
+    ): Response<GameDetailResponse?>
+
+    @GET("games/{id}/screenshots")
+    suspend fun getScreenshots(
+        @Path("id") id: Int,
+        @Query("key") apiKey: String
+    ): Response<ScreenshotResponse?>
 }

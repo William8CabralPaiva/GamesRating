@@ -5,8 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import com.cabral.gamesrating.ui.GamesSharedViewModel
-import com.cabral.gamesrating.ui.ListMoviesScreen
+import com.cabral.gamesrating.ui.listmovies.GamesSharedViewModel
+import com.cabral.gamesrating.ui.listmovies.ListMoviesScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

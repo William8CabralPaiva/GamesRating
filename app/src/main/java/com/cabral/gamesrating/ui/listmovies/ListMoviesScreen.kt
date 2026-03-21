@@ -1,10 +1,11 @@
-package com.cabral.gamesrating.ui
+package com.cabral.gamesrating.ui.listmovies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -68,7 +69,9 @@ fun ListMoviesLoaded(
 ) {
     GamesRatingTheme {
         Scaffold { padding ->
-            Surface(modifier = Modifier.padding(padding)) {
+            Surface(modifier = Modifier
+                .padding(padding)
+                .systemBarsPadding()) {
                 Column(modifier = modifier.padding(horizontal = 10.dp)) {
                     if (games == null) {
                         // Loading / shimmer

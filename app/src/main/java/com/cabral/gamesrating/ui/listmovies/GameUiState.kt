@@ -1,4 +1,4 @@
-package com.cabral.gamesrating.ui
+package com.cabral.gamesrating.ui.listmovies
 
 import com.cabral.gamesrating.ui.model.GameUi
 

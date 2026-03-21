@@ -1,6 +1,5 @@
-package com.cabral.gamesrating.ui
+package com.cabral.gamesrating.ui.listmovies
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
