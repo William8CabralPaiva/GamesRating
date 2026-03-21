@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.cabral.gamesrating.ui.components.ExpandableHtmlText
 import com.cabral.gamesrating.ui.components.RatingLayout
 import com.cabral.gamesrating.ui.components.RatingStar
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
@@ -160,10 +161,6 @@ fun GameDetailSuccess(
             Text(text = game.name, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
 
-            game.description?.let {
-                Text(text = AnnotatedString.fromHtml(it))
-            }
-
             Spacer(modifier = Modifier.height(8.dp))
 
             game.platforms?.let {
@@ -180,6 +177,12 @@ fun GameDetailSuccess(
 
             game.released?.let {
                 Text(text = it)
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            game.description?.let {
+                ExpandableHtmlText(AnnotatedString.fromHtml(it))
             }
         }
 
