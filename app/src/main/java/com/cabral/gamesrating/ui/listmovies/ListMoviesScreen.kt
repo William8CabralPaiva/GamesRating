@@ -30,21 +30,23 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun ListMoviesScreen(
     modifier: Modifier = Modifier,
-    sharedViewModel: GamesSharedViewModel = hiltViewModel(),
+    onClick: (id: Int) -> Unit = {},
+    listMoviesViewModel: ListMoviesViewModel = hiltViewModel(),
 ) {
-    val games = sharedViewModel.games.collectAsLazyPagingItems()
+    val games = listMoviesViewModel.games.collectAsLazyPagingItems()
 
-    ListMoviesContent(games = games, modifier = modifier)
+    ListMoviesContent(games = games, modifier = modifier, onClick = onClick)
 }
 
 @Composable
 fun ListMoviesContent(
     games: LazyPagingItems<GameUi>,
     modifier: Modifier = Modifier,
+    onClick: (id: Int) -> Unit = {},
 ) {
     when {
         games.loadState.refresh is LoadState.Loading -> {
-            ListMoviesLoaded(games = null, modifier = modifier)
+            ListMoviesLoaded(games = null, modifier = modifier, onClick)
         }
 
         games.loadState.refresh is LoadState.Error -> {
@@ -56,7 +58,7 @@ fun ListMoviesContent(
         }
 
         else -> {
-            ListMoviesLoaded(games = games, modifier = modifier)
+            ListMoviesLoaded(games = games, modifier = modifier, onClick)
         }
     }
 }
@@ -64,14 +66,17 @@ fun ListMoviesContent(
 // Função previewável — recebe lista simples ou null (shimmer)
 @Composable
 fun ListMoviesLoaded(
-    games: LazyPagingItems<GameUi>?,  // null = estado shimmer
+    games: LazyPagingItems<GameUi>?,
     modifier: Modifier = Modifier,
+    onClick: (id: Int) -> Unit = {},
 ) {
     GamesRatingTheme {
         Scaffold { padding ->
-            Surface(modifier = Modifier
-                .padding(padding)
-                .systemBarsPadding()) {
+            Surface(
+                modifier = Modifier
+                    .padding(padding)
+                    .systemBarsPadding()
+            ) {
                 Column(modifier = modifier.padding(horizontal = 10.dp)) {
                     if (games == null) {
                         // Loading / shimmer
@@ -81,7 +86,11 @@ fun ListMoviesLoaded(
                     } else {
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                             items(count = games.itemCount) { index ->
-                                MovieItem(gameUi = games[index], isLoading = false)
+                                MovieItem(
+                                    gameUi = games[index],
+                                    isLoading = false,
+                                    onClick = onClick
+                                )
                             }
                             if (games.loadState.append is LoadState.Loading) {
                                 item {

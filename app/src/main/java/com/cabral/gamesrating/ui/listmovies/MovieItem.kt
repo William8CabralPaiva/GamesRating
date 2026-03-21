@@ -37,6 +37,7 @@ fun MovieItem(
     gameUi: GameUi?,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
+    onClick: (id: Int) -> Unit = {},
 ) {
     GamesRatingTheme {
         Surface {
@@ -48,6 +49,11 @@ fun MovieItem(
                     containerColor = GreyDarkLight
                 ),
                 elevation = CardDefaults.cardElevation(20.dp),
+                onClick = {
+                    gameUi?.id?.let {
+                        onClick(it)
+                    }
+                }
             ) {
                 Row(
                     modifier = Modifier
@@ -57,7 +63,10 @@ fun MovieItem(
                     AsyncImage(
                         model = gameUi?.background_image,
                         placeholder = painterResource(R.drawable.loading_image),
-                        contentDescription = stringResource(R.string.image_game, gameUi?.name?:""),
+                        contentDescription = stringResource(
+                            R.string.image_game,
+                            gameUi?.name ?: ""
+                        ),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(120.dp)
@@ -73,7 +82,7 @@ fun MovieItem(
                             .padding(top = 4.dp, end = 8.dp),
                     ) {
                         Text(
-                            text = gameUi?.name?:"",
+                            text = gameUi?.name ?: "",
                             fontSize = 20.sp,
                             fontWeight = Bold,
                             color = Color.Black,
@@ -92,7 +101,7 @@ fun MovieItem(
                     }
 
                     RatingStar(
-                        rating = gameUi?.rating?:0.0,
+                        rating = gameUi?.rating ?: 0.0,
                         isLoading = isLoading,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )

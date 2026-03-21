@@ -29,13 +29,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cabral.gamesrating.R
 import com.cabral.gamesrating.ui.components.RatingLayout
 import com.cabral.gamesrating.ui.components.RatingStar
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 
 @Composable
-fun GameDetailScreen(modifier: Modifier = Modifier) {
+fun GameDetailScreen(
+    modifier: Modifier = Modifier,
+    viewmodel: GameDetailViewModel = hiltViewModel(),
+) {
     GameDetailContent()
 }
 

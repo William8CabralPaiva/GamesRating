@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-class GamesSharedViewModel @Inject constructor(
+class ListMoviesViewModel @Inject constructor(
     getAllGamesUseCase: GetAllGamesUseCase,
 ) : ViewModel() {
 
