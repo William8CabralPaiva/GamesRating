@@ -1,5 +1,7 @@
 package com.cabral.gamesrating.ui.gamedetail
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -95,12 +97,12 @@ fun GameDetailLoading(modifier: Modifier = Modifier) {
     }
 }
 
+
 @Composable
 fun GameDetailSuccess(
     game: GameDetailScreenshots,
     modifier: Modifier = Modifier,
 ) {
-
     var selectedImage by remember { mutableStateOf(game.backgroundImage) }
 
     Column(
@@ -114,14 +116,21 @@ fun GameDetailSuccess(
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-            AsyncImage(
-                model = selectedImage,
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-            )
+            Crossfade(
+                targetState = selectedImage,
+                animationSpec = tween(durationMillis = 500),
+                label = "GameImageCrossfade"
+            ) { targetImage ->
+                AsyncImage(
+                    model = targetImage,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                )
+            }
+
             Surface(
                 color = Color.Black.copy(alpha = 0.6f),
                 shape = RoundedCornerShape(8.dp),
@@ -149,7 +158,7 @@ fun GameDetailSuccess(
                         modifier = Modifier
                             .width(64.dp)
                             .height(64.dp)
-                            .clickable{
+                            .clickable {
                                 selectedImage = screenshot
                             },
                     )
@@ -159,8 +168,6 @@ fun GameDetailSuccess(
 
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = game.name, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
-
             Spacer(modifier = Modifier.height(8.dp))
 
             game.platforms?.let {
@@ -185,7 +192,6 @@ fun GameDetailSuccess(
                 ExpandableHtmlText(AnnotatedString.fromHtml(it))
             }
         }
-
     }
 }
 
