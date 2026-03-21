@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class GameDetailByIdUseCase @Inject constructor(
+class GetGameDetailByIdUseCase @Inject constructor(
     private val repository: MoviesRepository,
 ) {
     operator fun invoke(id: Int): Flow<GameDetailScreenshots> {
@@ -14,6 +14,21 @@ class GameDetailByIdUseCase @Inject constructor(
         val screenshotsFlow = repository.getScreenshots(id)
 
         return combine(gameByIdFlow, screenshotsFlow) { game, screenshots ->
+
+            val screenshotsList = mutableListOf<String>()
+
+            if (!game.background_image.isNullOrEmpty()) {
+                screenshotsList.add(game.background_image)
+            }
+
+            if (!game.background_image_additional.isNullOrEmpty()) {
+                screenshotsList.add(game.background_image_additional)
+            }
+
+            val map = screenshots.results.map { it.image }
+            screenshotsList.addAll(map)
+
+
             GameDetailScreenshots(
                 id = game.id,
                 name = game.name,
@@ -23,7 +38,7 @@ class GameDetailByIdUseCase @Inject constructor(
                 released = game.released,
                 rating = game.rating,
                 backgroundImage = game.background_image,
-                screenshots = screenshots.results.map { it.image }
+                screenshots = screenshotsList
             )
         }
     }
