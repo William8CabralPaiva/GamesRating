@@ -1,7 +1,9 @@
 package com.cabral.gamesrating.ui.gamedetail
 
+import android.content.Context
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +21,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +39,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
@@ -43,6 +54,7 @@ import com.cabral.gamesrating.ui.components.ExpandableHtmlText
 import com.cabral.gamesrating.ui.components.RatingLayout
 import com.cabral.gamesrating.ui.components.RatingStar
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
+import com.cabral.gamesrating.utils.Utils.saveImageFromUrl
 import com.cabral.gamesrating.utils.shimmer
 
 @Composable
@@ -140,6 +152,8 @@ fun GameDetailSuccess(
     game: GameDetailScreenshots,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     var selectedImage by remember { mutableStateOf(game.backgroundImage) }
 
     Column(
@@ -165,6 +179,26 @@ fun GameDetailSuccess(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
+                )
+            }
+            IconButton(
+                onClick = {
+                    selectedImage?.let {
+                        saveImage(context, it, game.name)
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(8.dp)
+                    .background(
+                        color = Color.Black.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Download,
+                    contentDescription = "Baixar Imagem",
+                    tint = Color.White
                 )
             }
 
@@ -228,6 +262,7 @@ fun GameDetailSuccess(
             game.description?.let {
                 ExpandableHtmlText(AnnotatedString.fromHtml(it))
             }
+
         }
     }
 }
@@ -243,6 +278,10 @@ fun GameDetailError(
     ) {
         Text(text = message)
     }
+}
+
+fun saveImage(context: Context, imageUrl: String, fileName: String) {
+    saveImageFromUrl(context, imageUrl, fileName)
 }
 
 @Preview(showBackground = true)
