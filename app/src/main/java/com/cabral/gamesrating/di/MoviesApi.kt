@@ -15,6 +15,7 @@ interface MoviesApi {
         @Query("key") key: String,
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int = 20,
+        @Query("search") search: String,
     ): Response<GamesResponse?>
 
     @GET("games/{id}")

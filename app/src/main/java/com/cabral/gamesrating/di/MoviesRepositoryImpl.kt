@@ -20,14 +20,14 @@ class MoviesRepositoryImpl @Inject constructor(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : MoviesRepository {
 
-    override fun getAllGames(): Flow<PagingData<Game>> {
+    override fun getAllGames(search: String): Flow<PagingData<Game>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 5,
                 enablePlaceholders = false,
             ),
-            pagingSourceFactory = { GamesPagingSource(moviesApi) }
+            pagingSourceFactory = { GamesPagingSource(moviesApi,search) }
         ).flow.flowOn(dispatcher)
     }
 

@@ -7,6 +7,7 @@ import com.cabral.gamesrating.di.MoviesApi
 
 class GamesPagingSource(
     private val moviesApi: MoviesApi,
+    private val search: String?,
 ) : PagingSource<Int, Game>() {
 
     override fun getRefreshKey(state: PagingState<Int, Game>): Int? {
@@ -24,6 +25,7 @@ class GamesPagingSource(
                 key = BuildConfig.API_KEY,
                 page = page,
                 pageSize = params.loadSize,
+                search = search ?: ""
             )
 
             if (response.isSuccessful) {

@@ -5,4 +5,5 @@
     <string name="image_game">Imagem do jogo %s</string>
     <string name="see_less">Ver mais</string>
     <string name="see_more">Ver menos</string>
+    <string name="search">Search</string>
 </resources>

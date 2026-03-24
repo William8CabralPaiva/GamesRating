@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetAllGamesUseCase @Inject constructor(
     private val repository: MoviesRepository,
 ) {
-    operator fun invoke(): Flow<PagingData<Game>> {
-        return repository.getAllGames()
+    operator fun invoke(search: String): Flow<PagingData<Game>> {
+        return repository.getAllGames(search)
     }
 }
