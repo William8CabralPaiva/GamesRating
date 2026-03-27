@@ -11,15 +11,16 @@ data class GameUi(
     val name: String,
     val platforms: List<PlatformWrapper>,
     val released: String?,
-    val background_image: String?,
+    val backgroundImage: String?,
     val rating: Double,
     val tags: List<Tag>,
     val score: Double?,
-    val short_screenshots: List<Screenshot>,
+    val shortScreenshots: List<Screenshot>,
     val genres: String?,
+    val isFavorite:Boolean
 )
 
-fun Game.toGameUi(): GameUi {
+fun Game.toGameUi(isFavorite: Boolean): GameUi {
     return GameUi(
         id,
         name,
@@ -30,13 +31,8 @@ fun Game.toGameUi(): GameUi {
         tags,
         score,
         short_screenshots,
-        genres.toGenreString()
+        genres.toGenreString(),
+        isFavorite
     )
-}
-
-fun List<Game>?.toGameUiList(): List<GameUi>? {
-    return this?.map { game ->
-        game.toGameUi()
-    }
 }
 

@@ -35,7 +35,7 @@ class ListMoviesViewModel @Inject constructor(
         .flatMapLatest { query ->
             getAllGamesUseCase(query)
         }
-        .map { pagingData -> pagingData.map { it.toGameUi() } }
+        .map { pagingData -> pagingData.map { it.toGameUi(isFavorite = false) } }//todo ver is favorite
         .cachedIn(viewModelScope)
 
     fun updateSearch(query: String) {

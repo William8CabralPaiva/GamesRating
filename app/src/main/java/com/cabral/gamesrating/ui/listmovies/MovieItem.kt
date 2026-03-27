@@ -1,5 +1,6 @@
 package com.cabral.gamesrating.ui.listmovies
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,11 +8,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +47,11 @@ fun MovieItem(
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
+    onClickFavorite: () -> Unit = {},
 ) {
+
+    val isFavorite by remember { mutableStateOf(gameUi?.isFavorite ?: false) }
+
     GamesRatingTheme {
         Surface {
             Card(
@@ -60,19 +73,33 @@ fun MovieItem(
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    AsyncImage(
-                        model = gameUi?.background_image,
-                        placeholder = painterResource(R.drawable.loading_image),
-                        contentDescription = stringResource(
-                            R.string.image_game,
-                            gameUi?.name ?: ""
-                        ),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(120.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .shimmer(isLoading)
-                    )
+                    Box {
+                        AsyncImage(
+                            model = gameUi?.backgroundImage,
+                            placeholder = painterResource(R.drawable.loading_image),
+                            contentDescription = stringResource(
+                                R.string.image_game,
+                                gameUi?.name ?: ""
+                            ),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .shimmer(isLoading)
+                        )
+                        IconButton(
+                            onClick = { onClickFavorite() },
+                            modifier = Modifier
+                                .padding(0.dp)
+                                .align(Alignment.TopEnd)
+                        ) {
+                            Icon(
+                                imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                contentDescription = stringResource(R.string.favorite_button),
+                                tint = Color(0xFFFFC107),
+                            )
+                        }
+                    }
 
                     Spacer(modifier = Modifier.size(12.dp))
 
@@ -103,7 +130,9 @@ fun MovieItem(
                     RatingStar(
                         rating = gameUi?.rating ?: 0.0,
                         isLoading = isLoading,
-                        modifier = Modifier.align(Alignment.CenterVertically)
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .shimmer(isLoading)
                     )
                 }
             }
@@ -119,12 +148,13 @@ fun MovieItemPreview() {
         name = "Shadow of the colossus",
         platforms = listOf(),
         released = "",
-        background_image = "",
+        backgroundImage = "",
         rating = 5.0,
         tags = listOf(),
         score = 0.0,
-        short_screenshots = listOf(),
-        genres = "Ação, Aventura"
+        shortScreenshots = listOf(),
+        genres = "Ação, Aventura",
+        false
     )
     MovieItem(gameUi, false)
 }

@@ -3,15 +3,16 @@ package com.cabral.gamesrating.ui.listmovies
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +42,6 @@ fun ListMoviesScreen(
     val games = listMoviesViewModel.games.collectAsLazyPagingItems()
     val searchText by listMoviesViewModel.searchQuery.collectAsState()
 
-
     ListMoviesContent(
         games = games,
         modifier = modifier,
@@ -59,91 +59,103 @@ fun ListMoviesContent(
     searchText: String,
     onSearchChange: (String) -> Unit,
 ) {
-    GamesRatingTheme {
-        Scaffold { padding ->
-            Surface(
-                modifier = Modifier
-                    .padding(padding)
-                    .systemBarsPadding()
-            ) {
-                Column {
-                    OutlinedTextField(
-                        value = searchText,
-                        onValueChange = onSearchChange,
-                        enabled = games.loadState.refresh is LoadState.NotLoading,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-                        label = { Text(stringResource(R.string.search)) }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    when {
-                        games.loadState.refresh is LoadState.Loading -> {
-                            ListMoviesLoaded(
-                                games = null,
-                                modifier = modifier,
-                                onClick
-                            )
-                        }
+    Column(
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+    ) {
 
-                        games.loadState.refresh is LoadState.Error -> {
-                            ListMoviesError(modifier = modifier)
-                        }
+        OutlinedTextField(
+            value = searchText,
+            onValueChange = onSearchChange,
+            enabled = games.loadState.refresh is LoadState.NotLoading,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(R.string.search)) }
+        )
 
-                        games.itemCount == 0 -> {
-                            ListMoviesEmpty(modifier = modifier)
-                        }
+        Spacer(modifier = Modifier.height(16.dp))
 
-                        else -> {
-                            ListMoviesLoaded(
-                                games = games,
-                                modifier = modifier,
-                                onClick
-                            )
-                        }
-                    }
-                }
+        when {
+            games.loadState.refresh is LoadState.Loading -> {
+                ListMoviesLoaded(
+                    games = null,
+                    onClick = onClick
+                )
+            }
+
+            games.loadState.refresh is LoadState.Error -> {
+                ListMoviesError()
+            }
+
+            games.itemCount == 0 -> {
+                ListMoviesEmpty()
+            }
+
+            else -> {
+                ListMoviesLoaded(
+                    games = games,
+                    onClick = onClick
+                )
             }
         }
     }
 }
 
-// Função previewável — recebe lista simples ou null (shimmer)
 @Composable
 fun ListMoviesLoaded(
     games: LazyPagingItems<GameUi>?,
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
 ) {
-
-    Column(modifier = modifier.padding(horizontal = 10.dp)) {
-        if (games == null) {
-            // Loading / shimmer
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                items(10) { MovieItem(gameUi = null, isLoading = true) }
+    if (games == null) {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                horizontal = 10.dp,
+                vertical = 8.dp
+            )
+        ) {
+            items(10) {
+                MovieItem(gameUi = null, isLoading = true)
             }
-        } else {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                items(count = games.itemCount) { index ->
-                    MovieItem(
-                        gameUi = games[index],
-                        isLoading = false,
-                        onClick = onClick
-                    )
-                }
-                if (games.loadState.append is LoadState.Loading) {
-                    item {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+        }
+    } else {
+        LazyColumn(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                horizontal = 10.dp,
+                vertical = 8.dp
+            )
+        ) {
+            items(count = games.itemCount) { index ->
+                MovieItem(
+                    gameUi = games[index],
+                    isLoading = false,
+                    onClick = onClick,
+                    onClickFavorite = {
+                        games[index]?.let {
+                           it.copy(isFavorite = !it.isFavorite)
                         }
+                    }
+                )
+            }
+
+            if (games.loadState.append is LoadState.Loading) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(16.dp)
+                        )
                     }
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun ListMoviesError(modifier: Modifier = Modifier) {
@@ -175,28 +187,33 @@ fun ListMoviesSuccessPreview() {
             emptyList(),
             4.9,
             emptyList(),
-            "Ação, aventura"
+            "Ação, aventura",
+            false
         ),
         GameUi(
             2,
             name = "Elden Ring",
             emptyList(),
-            "2015-05-19",
+            "2022-02-25",
             "",
             4.9,
             emptyList(),
             4.9,
             emptyList(),
-            "Ação, aventura"
+            "Ação, aventura",
+            false
         ),
     )
 
-    // Cria um PagingData estático só para preview
     val pagingData = PagingData.from(fakeGames)
     val flow = flowOf(pagingData)
     val lazyItems = flow.collectAsLazyPagingItems()
 
-    ListMoviesLoaded(games = lazyItems)
+    GamesRatingTheme {
+        Surface {
+            ListMoviesLoaded(games = lazyItems)
+        }
+    }
 }
 
 @Preview(showBackground = true, name = "Loading State")
@@ -204,7 +221,7 @@ fun ListMoviesSuccessPreview() {
 fun ListMoviesLoadingPreview() {
     GamesRatingTheme {
         Surface {
-            ListMoviesLoaded(games = null)  // null = shimmer
+            ListMoviesLoaded(games = null)
         }
     }
 }

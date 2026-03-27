@@ -6,4 +6,7 @@
     <string name="see_less">Ver mais</string>
     <string name="see_more">Ver menos</string>
     <string name="search">Search</string>
+    <string name="games">Games</string>
+    <string name="favorite">Favorites</string>
+    <string name="favorite_button">Botão para favoritar</string>
 </resources>

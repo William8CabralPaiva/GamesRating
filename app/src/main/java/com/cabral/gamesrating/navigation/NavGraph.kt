@@ -1,5 +1,6 @@
 package com.cabral.gamesrating.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -25,6 +26,10 @@ fun NavGraph(
             ListMoviesScreen(modifier, onClick = {
                 navController.navigate(Routes.GameDetail.createRoute(it))
             })
+        }
+
+        composable(Routes.Favorites.route) {
+            Text("tela favorito")
         }
 
         composable(
