@@ -1,5 +1,7 @@
 package com.cabral.gamesrating.di
 
+import com.cabral.gamesrating.data.repository.MoviesRepositoryImpl
+import com.cabral.gamesrating.domain.repository.MoviesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

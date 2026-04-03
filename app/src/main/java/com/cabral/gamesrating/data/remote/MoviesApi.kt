@@ -1,8 +1,8 @@
-package com.cabral.gamesrating.di
+package com.cabral.gamesrating.data.remote
 
-import com.cabral.gamesrating.data.model.GameDetailResponse
-import com.cabral.gamesrating.data.model.GamesResponse
-import com.cabral.gamesrating.data.model.ScreenshotResponse
+import com.cabral.gamesrating.domain.model.GameDetailResponse
+import com.cabral.gamesrating.domain.model.GamesResponse
+import com.cabral.gamesrating.domain.model.ScreenshotResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

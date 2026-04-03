@@ -1,6 +1,6 @@
-package com.cabral.gamesrating.modules
+package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.di.MoviesApi
+import com.cabral.gamesrating.data.remote.MoviesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

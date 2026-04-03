@@ -3,7 +3,7 @@ package com.cabral.gamesrating.ui.gamedetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cabral.gamesrating.usecase.GetGameDetailByIdUseCase
+import com.cabral.gamesrating.domain.usecase.GetGameDetailByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

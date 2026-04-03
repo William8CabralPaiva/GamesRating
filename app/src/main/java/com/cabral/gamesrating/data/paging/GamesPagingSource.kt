@@ -1,9 +1,10 @@
-package com.cabral.gamesrating
+package com.cabral.gamesrating.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.cabral.gamesrating.BuildConfig
 import com.cabral.gamesrating.data.model.Game
-import com.cabral.gamesrating.di.MoviesApi
+import com.cabral.gamesrating.data.remote.MoviesApi
 
 class GamesPagingSource(
     private val moviesApi: MoviesApi,

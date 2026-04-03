@@ -1,4 +1,7 @@
-package com.cabral.gamesrating.data.model
+package com.cabral.gamesrating.domain.model
+
+import com.cabral.gamesrating.data.model.Genre
+import com.cabral.gamesrating.data.model.PlatformWrapper
 
 data class GameDetailResponse(
     val id: Int,

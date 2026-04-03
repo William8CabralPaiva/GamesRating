@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.cabral.gamesrating.ui.model.GameUi
 import com.cabral.gamesrating.ui.model.toGameUi
-import com.cabral.gamesrating.usecase.GetAllGamesUseCase
+import com.cabral.gamesrating.domain.usecase.GetAllGamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

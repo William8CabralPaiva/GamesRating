@@ -1,6 +1,6 @@
-package com.cabral.gamesrating.usecase
+package com.cabral.gamesrating.domain.usecase
 
-import com.cabral.gamesrating.di.MoviesRepository
+import com.cabral.gamesrating.domain.repository.MoviesRepository
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

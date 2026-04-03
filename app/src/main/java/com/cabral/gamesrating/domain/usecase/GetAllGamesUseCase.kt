@@ -1,8 +1,8 @@
-package com.cabral.gamesrating.usecase
+package com.cabral.gamesrating.domain.usecase
 
 import androidx.paging.PagingData
 import com.cabral.gamesrating.data.model.Game
-import com.cabral.gamesrating.di.MoviesRepository
+import com.cabral.gamesrating.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

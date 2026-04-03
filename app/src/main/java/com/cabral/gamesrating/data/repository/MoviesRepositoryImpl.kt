@@ -1,13 +1,15 @@
-package com.cabral.gamesrating.di
+package com.cabral.gamesrating.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.cabral.gamesrating.BuildConfig
-import com.cabral.gamesrating.GamesPagingSource
+import com.cabral.gamesrating.data.paging.GamesPagingSource
 import com.cabral.gamesrating.data.model.Game
-import com.cabral.gamesrating.data.model.GameDetailResponse
-import com.cabral.gamesrating.data.model.ScreenshotResponse
+import com.cabral.gamesrating.domain.model.GameDetailResponse
+import com.cabral.gamesrating.domain.model.ScreenshotResponse
+import com.cabral.gamesrating.data.remote.MoviesApi
+import com.cabral.gamesrating.domain.repository.MoviesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +29,7 @@ class MoviesRepositoryImpl @Inject constructor(
                 prefetchDistance = 5,
                 enablePlaceholders = false,
             ),
-            pagingSourceFactory = { GamesPagingSource(moviesApi,search) }
+            pagingSourceFactory = { GamesPagingSource(moviesApi, search) }
         ).flow.flowOn(dispatcher)
     }
 
