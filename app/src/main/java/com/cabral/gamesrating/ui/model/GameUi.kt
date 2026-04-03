@@ -17,7 +17,7 @@ data class GameUi(
     val score: Double?,
     val shortScreenshots: List<Screenshot>,
     val genres: String?,
-    val isFavorite:Boolean
+    var isFavorite:Boolean
 )
 
 fun Game.toGameUi(isFavorite: Boolean): GameUi {
