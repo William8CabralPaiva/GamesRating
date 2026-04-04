@@ -1,5 +1,6 @@
 package com.cabral.gamesrating.data.remote
 
+import com.cabral.gamesrating.di.RemoteDataSource
 import com.cabral.gamesrating.domain.model.GameDetailResponse
 import com.cabral.gamesrating.domain.model.GamesResponse
 import com.cabral.gamesrating.domain.model.ScreenshotResponse

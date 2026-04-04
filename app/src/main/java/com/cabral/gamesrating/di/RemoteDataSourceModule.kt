@@ -1,6 +1,6 @@
 package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.data.remote.RemoteDataSource
+import com.cabral.gamesrating.di.RemoteDataSource
 import com.cabral.gamesrating.data.remote.RemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module

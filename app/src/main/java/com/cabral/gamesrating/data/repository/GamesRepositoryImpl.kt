@@ -8,7 +8,7 @@ import com.cabral.gamesrating.data.paging.GamesPagingSource
 import com.cabral.gamesrating.data.model.Game
 import com.cabral.gamesrating.domain.model.GameDetailResponse
 import com.cabral.gamesrating.domain.model.ScreenshotResponse
-import com.cabral.gamesrating.data.remote.RemoteDataSource
+import com.cabral.gamesrating.di.RemoteDataSource
 import com.cabral.gamesrating.domain.repository.GamesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

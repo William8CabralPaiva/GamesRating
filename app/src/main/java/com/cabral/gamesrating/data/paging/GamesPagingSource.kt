@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.cabral.gamesrating.BuildConfig
 import com.cabral.gamesrating.data.model.Game
-import com.cabral.gamesrating.data.remote.RemoteDataSource
+import com.cabral.gamesrating.di.RemoteDataSource
 
 class GamesPagingSource(
     private val remoteDataSource: RemoteDataSource,

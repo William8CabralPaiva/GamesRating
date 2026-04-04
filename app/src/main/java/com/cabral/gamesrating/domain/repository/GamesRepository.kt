@@ -10,5 +10,4 @@ interface GamesRepository {
     fun getAllGames(search: String): Flow<PagingData<Game>>
     fun getGameById(id: Int): Flow<GameDetailResponse>
     fun getScreenshots(id: Int): Flow<ScreenshotResponse>
-
 }
