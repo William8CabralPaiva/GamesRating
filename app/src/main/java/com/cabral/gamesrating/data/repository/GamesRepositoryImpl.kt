@@ -8,7 +8,7 @@ import com.cabral.gamesrating.data.paging.GamesPagingSource
 import com.cabral.gamesrating.data.model.Game
 import com.cabral.gamesrating.domain.model.GameDetailResponse
 import com.cabral.gamesrating.domain.model.ScreenshotResponse
-import com.cabral.gamesrating.data.remote.GamesApi
+import com.cabral.gamesrating.data.remote.RemoteDataSource
 import com.cabral.gamesrating.domain.repository.GamesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GamesRepositoryImpl @Inject constructor(
-    private val gamesApi: GamesApi,
+    private val remoteDataSource: RemoteDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : GamesRepository {
 
@@ -29,13 +29,12 @@ class GamesRepositoryImpl @Inject constructor(
                 prefetchDistance = 5,
                 enablePlaceholders = false,
             ),
-            pagingSourceFactory = { GamesPagingSource(gamesApi, search) }
+            pagingSourceFactory = { GamesPagingSource(remoteDataSource, search) }
         ).flow.flowOn(dispatcher)
     }
 
     override fun getGameById(id: Int): Flow<GameDetailResponse> = flow {
-        val response = gamesApi.getGameById(id, BuildConfig.API_KEY)
-        response
+        val response = remoteDataSource.getGameById(id, BuildConfig.API_KEY)
         if (response.isSuccessful) {
             response.body()?.let { game ->
                 emit(game)
@@ -47,7 +46,7 @@ class GamesRepositoryImpl @Inject constructor(
 
 
     override fun getScreenshots(id: Int): Flow<ScreenshotResponse> = flow {
-        val response = gamesApi.getScreenshots(id, BuildConfig.API_KEY)
+        val response = remoteDataSource.getScreenshots(id, BuildConfig.API_KEY)
 
         if (response.isSuccessful) {
             response.body()?.let { game ->

@@ -1,6 +1,5 @@
 package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.data.remote.RemoteDataSourceImpl
 import com.cabral.gamesrating.data.repository.GamesRepositoryImpl
 import com.cabral.gamesrating.domain.repository.GamesRepository
 import dagger.Binds
@@ -21,12 +20,6 @@ abstract class DataModule {
     abstract fun bindGamesRepository(
         impl: GamesRepositoryImpl,
     ): GamesRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindRemoteDataSource(
-        impl: RemoteDataSourceImpl,
-    ): RemoteDataSource
 
     companion object {
         @Provides
