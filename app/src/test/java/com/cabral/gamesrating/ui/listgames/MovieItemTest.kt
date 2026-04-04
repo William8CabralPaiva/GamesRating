@@ -1,4 +1,4 @@
-package com.cabral.gamesrating.ui.listmovies
+package com.cabral.gamesrating.ui.listgames
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule

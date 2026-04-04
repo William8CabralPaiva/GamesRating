@@ -4,11 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,7 +15,6 @@ import com.cabral.gamesrating.navigation.BottomNavigationBar
 import com.cabral.gamesrating.navigation.NavGraph
 import com.cabral.gamesrating.navigation.Routes
 //import androidx.activity.viewModels
-import com.cabral.gamesrating.ui.listmovies.ListMoviesScreen
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 import dagger.hilt.android.AndroidEntryPoint
 

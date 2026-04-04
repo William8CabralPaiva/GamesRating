@@ -1,4 +1,4 @@
-package com.cabral.gamesrating.ui.listmovies
+package com.cabral.gamesrating.ui.listgames
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

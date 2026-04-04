@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.cabral.gamesrating.ui.gamedetail.GameDetailScreen
-import com.cabral.gamesrating.ui.listmovies.ListMoviesScreen
+import com.cabral.gamesrating.ui.listgames.ListMoviesScreen
 
 @Composable
 fun NavGraph(
