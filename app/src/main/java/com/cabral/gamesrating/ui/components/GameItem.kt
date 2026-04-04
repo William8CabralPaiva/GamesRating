@@ -1,4 +1,4 @@
-package com.cabral.gamesrating.ui.listgames
+package com.cabral.gamesrating.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,14 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cabral.gamesrating.R
-import com.cabral.gamesrating.ui.components.RatingStar
 import com.cabral.gamesrating.ui.model.GameUi
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 import com.cabral.gamesrating.ui.theme.GreyDarkLight
 import com.cabral.gamesrating.utils.shimmer
 
 @Composable()
-fun MovieItem(
+fun GameItem(
     gameUi: GameUi?,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
@@ -151,7 +150,7 @@ fun MovieItem(
 
 @Preview
 @Composable
-fun MovieItemPreview() {
+fun GameItemPreview() {
     val gameUi = GameUi(
         0,
         name = "Shadow of the colossus",
@@ -165,5 +164,5 @@ fun MovieItemPreview() {
         genres = "Ação, Aventura",
         false
     )
-    MovieItem(gameUi, false)
+    GameItem(gameUi, false)
 }

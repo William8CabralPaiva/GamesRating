@@ -28,30 +28,31 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.cabral.gamesrating.R
+import com.cabral.gamesrating.ui.components.GameItem
 import com.cabral.gamesrating.ui.model.GameUi
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun ListMoviesScreen(
+fun ListGamesScreen(
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
-    listMoviesViewModel: ListMoviesViewModel = hiltViewModel(),
+    listGameViewModel: ListGameViewModel = hiltViewModel(),
 ) {
-    val games = listMoviesViewModel.games.collectAsLazyPagingItems()
-    val searchText by listMoviesViewModel.searchQuery.collectAsState()
+    val games = listGameViewModel.games.collectAsLazyPagingItems()
+    val searchText by listGameViewModel.searchQuery.collectAsState()
 
-    ListMoviesContent(
+    ListGamesContent(
         games = games,
         modifier = modifier,
         onClick = onClick,
         searchText = searchText,
-        onSearchChange = listMoviesViewModel::updateSearch
+        onSearchChange = listGameViewModel::updateSearch
     )
 }
 
 @Composable
-fun ListMoviesContent(
+fun ListGamesContent(
     games: LazyPagingItems<GameUi>,
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
@@ -75,22 +76,22 @@ fun ListMoviesContent(
 
         when {
             games.loadState.refresh is LoadState.Loading -> {
-                ListMoviesLoaded(
+                ListGamesLoaded(
                     games = null,
                     onClick = onClick
                 )
             }
 
             games.loadState.refresh is LoadState.Error -> {
-                ListMoviesError()
+                ListGamesError()
             }
 
             games.itemCount == 0 -> {
-                ListMoviesEmpty()
+                ListGamesEmpty()
             }
 
             else -> {
-                ListMoviesLoaded(
+                ListGamesLoaded(
                     games = games,
                     onClick = onClick
                 )
@@ -100,7 +101,7 @@ fun ListMoviesContent(
 }
 
 @Composable
-fun ListMoviesLoaded(
+fun ListGamesLoaded(
     games: LazyPagingItems<GameUi>?,
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
@@ -115,7 +116,7 @@ fun ListMoviesLoaded(
             )
         ) {
             items(10) {
-                MovieItem(gameUi = null, isLoading = true)
+                GameItem(gameUi = null, isLoading = true)
             }
         }
     } else {
@@ -128,7 +129,7 @@ fun ListMoviesLoaded(
             )
         ) {
             items(count = games.itemCount) { index ->
-                MovieItem(
+                GameItem(
                     gameUi = games[index],
                     isLoading = false,
                     onClick = onClick,
@@ -155,7 +156,7 @@ fun ListMoviesLoaded(
 }
 
 @Composable
-fun ListMoviesError(modifier: Modifier = Modifier) {
+fun ListGamesError(modifier: Modifier = Modifier) {
     Text(
         text = stringResource(R.string.error_list),
         modifier = modifier.padding(16.dp)
@@ -163,7 +164,7 @@ fun ListMoviesError(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ListMoviesEmpty(modifier: Modifier = Modifier) {
+fun ListGamesEmpty(modifier: Modifier = Modifier) {
     Text(
         text = stringResource(R.string.empty_list),
         modifier = modifier.padding(16.dp)
@@ -172,7 +173,7 @@ fun ListMoviesEmpty(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true, name = "Success State")
 @Composable
-fun ListMoviesSuccessPreview() {
+fun ListGamesSuccessPreview() {
     val fakeGames = listOf(
         GameUi(
             1,
@@ -208,37 +209,37 @@ fun ListMoviesSuccessPreview() {
 
     GamesRatingTheme {
         Surface {
-            ListMoviesLoaded(games = lazyItems)
+            ListGamesLoaded(games = lazyItems)
         }
     }
 }
 
 @Preview(showBackground = true, name = "Loading State")
 @Composable
-fun ListMoviesLoadingPreview() {
+fun ListGamesLoadingPreview() {
     GamesRatingTheme {
         Surface {
-            ListMoviesLoaded(games = null)
+            ListGamesLoaded(games = null)
         }
     }
 }
 
 @Preview(showBackground = true, name = "Error State")
 @Composable
-fun ListMoviesErrorPreview() {
+fun ListGamesErrorPreview() {
     GamesRatingTheme {
         Surface {
-            ListMoviesError()
+            ListGamesError()
         }
     }
 }
 
 @Preview(showBackground = true, name = "Empty State")
 @Composable
-fun ListMoviesEmptyPreview() {
+fun ListGamesEmptyPreview() {
     GamesRatingTheme {
         Surface {
-            ListMoviesEmpty()
+            ListGamesEmpty()
         }
     }
 }

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class ListMoviesViewModel @Inject constructor(
+class ListGameViewModel @Inject constructor(
     getAllGamesUseCase: GetAllGamesUseCase,
 ) : ViewModel() {
 

@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.cabral.gamesrating.ui.gamedetail.GameDetailScreen
-import com.cabral.gamesrating.ui.listgames.ListMoviesScreen
+import com.cabral.gamesrating.ui.listgames.ListGamesScreen
 
 @Composable
 fun NavGraph(
@@ -23,7 +23,7 @@ fun NavGraph(
     ) {
 
         composable(Routes.Game.route) {
-            ListMoviesScreen(modifier, onClick = {
+            ListGamesScreen(modifier, onClick = {
                 navController.navigate(Routes.GameDetail.createRoute(it))
             })
         }

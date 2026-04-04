@@ -9,13 +9,14 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.cabral.gamesrating.R
+import com.cabral.gamesrating.ui.components.GameItem
 import com.cabral.gamesrating.ui.model.GameUi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MovieItemTest {
+class GameItemTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -53,7 +54,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(gameUi = game, isLoading = false)
+            GameItem(gameUi = game, isLoading = false)
         }
 
         // Then
@@ -69,7 +70,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(gameUi = game, isLoading = false)
+            GameItem(gameUi = game, isLoading = false)
         }
 
         // Then
@@ -86,7 +87,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(gameUi = game, isLoading = true)
+            GameItem(gameUi = game, isLoading = true)
         }
 
         // Then
@@ -101,7 +102,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(gameUi = game, isLoading = false)
+            GameItem(gameUi = game, isLoading = false)
         }
 
         // Then
@@ -119,7 +120,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(
+            GameItem(
                 gameUi = game,
                 isLoading = false,
                 onClickFavorite = { favoriteClicked = true },
@@ -140,7 +141,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(
+            GameItem(
                 gameUi = game,
                 isLoading = false,
                 onClick = { id -> clickedId = id },
@@ -162,7 +163,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(gameUi = null, isLoading = false)
+            GameItem(gameUi = null, isLoading = false)
         }
 
         // Then
@@ -176,7 +177,7 @@ class MovieItemTest {
 
         // When
         composeTestRule.setContent {
-            MovieItem(gameUi = null, isLoading = false, onClick = { wasCalled = true })
+            GameItem(gameUi = null, isLoading = false, onClick = { wasCalled = true })
         }
         composeTestRule.onRoot().performClick()
 
