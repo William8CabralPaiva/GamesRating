@@ -95,6 +95,11 @@ dependencies {
     // OkHttp
     implementation(libs.logging.interceptor)
 
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler) // Ou ksp
+    implementation(libs.gson)
+
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.ui.test.junit4)
@@ -106,4 +111,5 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
 }

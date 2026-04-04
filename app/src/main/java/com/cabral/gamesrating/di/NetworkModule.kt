@@ -1,6 +1,6 @@
 package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.data.remote.MoviesApi
+import com.cabral.gamesrating.data.remote.GamesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +24,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMoviesApi(retrofit: Retrofit): MoviesApi {
-        return retrofit.create(MoviesApi::class.java)
+    fun provideMoviesApi(retrofit: Retrofit): GamesApi {
+        return retrofit.create(GamesApi::class.java)
     }
 }

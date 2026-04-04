@@ -8,8 +8,8 @@ import com.cabral.gamesrating.data.paging.GamesPagingSource
 import com.cabral.gamesrating.data.model.Game
 import com.cabral.gamesrating.domain.model.GameDetailResponse
 import com.cabral.gamesrating.domain.model.ScreenshotResponse
-import com.cabral.gamesrating.data.remote.MoviesApi
-import com.cabral.gamesrating.domain.repository.MoviesRepository
+import com.cabral.gamesrating.data.remote.GamesApi
+import com.cabral.gamesrating.domain.repository.GamesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,10 +17,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class MoviesRepositoryImpl @Inject constructor(
-    private val moviesApi: MoviesApi,
+class GamesRepositoryImpl @Inject constructor(
+    private val gamesApi: GamesApi,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-) : MoviesRepository {
+) : GamesRepository {
 
     override fun getAllGames(search: String): Flow<PagingData<Game>> {
         return Pager(
@@ -29,12 +29,12 @@ class MoviesRepositoryImpl @Inject constructor(
                 prefetchDistance = 5,
                 enablePlaceholders = false,
             ),
-            pagingSourceFactory = { GamesPagingSource(moviesApi, search) }
+            pagingSourceFactory = { GamesPagingSource(gamesApi, search) }
         ).flow.flowOn(dispatcher)
     }
 
     override fun getGameById(id: Int): Flow<GameDetailResponse> = flow {
-        val response = moviesApi.getGameById(id, BuildConfig.API_KEY)
+        val response = gamesApi.getGameById(id, BuildConfig.API_KEY)
         response
         if (response.isSuccessful) {
             response.body()?.let { game ->
@@ -47,7 +47,7 @@ class MoviesRepositoryImpl @Inject constructor(
 
 
     override fun getScreenshots(id: Int): Flow<ScreenshotResponse> = flow {
-        val response = moviesApi.getScreenshots(id, BuildConfig.API_KEY)
+        val response = gamesApi.getScreenshots(id, BuildConfig.API_KEY)
 
         if (response.isSuccessful) {
             response.body()?.let { game ->

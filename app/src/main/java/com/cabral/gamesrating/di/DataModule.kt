@@ -1,7 +1,7 @@
 package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.data.repository.MoviesRepositoryImpl
-import com.cabral.gamesrating.domain.repository.MoviesRepository
+import com.cabral.gamesrating.data.repository.GamesRepositoryImpl
+import com.cabral.gamesrating.domain.repository.GamesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -18,8 +18,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindMoviesRepository(
-        impl: MoviesRepositoryImpl,
-    ): MoviesRepository
+        impl: GamesRepositoryImpl,
+    ): GamesRepository
 
     companion object {
         @Provides

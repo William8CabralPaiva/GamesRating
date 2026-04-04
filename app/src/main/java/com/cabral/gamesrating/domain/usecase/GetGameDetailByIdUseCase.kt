@@ -1,13 +1,13 @@
 package com.cabral.gamesrating.domain.usecase
 
-import com.cabral.gamesrating.domain.repository.MoviesRepository
+import com.cabral.gamesrating.domain.repository.GamesRepository
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class GetGameDetailByIdUseCase @Inject constructor(
-    private val repository: MoviesRepository,
+    private val repository: GamesRepository,
 ) {
     operator fun invoke(id: Int): Flow<GameDetailScreenshots> {
         val gameByIdFlow = repository.getGameById(id)

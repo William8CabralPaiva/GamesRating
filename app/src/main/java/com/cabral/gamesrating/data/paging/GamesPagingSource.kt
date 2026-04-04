@@ -4,10 +4,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.cabral.gamesrating.BuildConfig
 import com.cabral.gamesrating.data.model.Game
-import com.cabral.gamesrating.data.remote.MoviesApi
+import com.cabral.gamesrating.data.remote.GamesApi
 
 class GamesPagingSource(
-    private val moviesApi: MoviesApi,
+    private val gamesApi: GamesApi,
     private val search: String?,
 ) : PagingSource<Int, Game>() {
 
@@ -22,7 +22,7 @@ class GamesPagingSource(
         val page = params.key ?: STARTING_PAGE
 
         return try {
-            val response = moviesApi.getAllGames(
+            val response = gamesApi.getAllGames(
                 key = BuildConfig.API_KEY,
                 page = page,
                 pageSize = params.loadSize,
