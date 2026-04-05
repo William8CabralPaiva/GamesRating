@@ -94,6 +94,8 @@ fun GameItem(
                                         isFavoriteState = !isFavoriteState
                                         it.isFavorite = isFavoriteState
                                         onClickFavorite(gameUi)
+                                        it.isFavorite = isFavoriteState
+                                        onClickFavorite(gameUi)
                                     }
                                 },
                                 modifier = Modifier
@@ -160,5 +162,6 @@ fun GameItemPreview() {
         genres = "Ação, Aventura",
         false
     )
+    GameItem(gameUi, false)
     GameItem(gameUi, false)
 }

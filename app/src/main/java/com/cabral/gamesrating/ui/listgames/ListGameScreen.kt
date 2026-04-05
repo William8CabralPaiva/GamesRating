@@ -41,19 +41,19 @@ fun ListGamesScreen(
 ) {
     val games = listGameViewModel.games.collectAsLazyPagingItems()
     val searchText by listGameViewModel.searchQuery.collectAsState()
+    val favoriteIds by listGameViewModel.favoriteIds.collectAsState()
 
     ListGamesContent(
         games = games,
         modifier = modifier,
         onClick = onClick,
-        onClickFavorite = {
-            listGameViewModel.toggleFavorite(
-                it?.isFavorite ?: false,
-                it ?: GameUi(0, "", "", "", 0.0, "", false)
-            )
+        onClickFavorite = { gameUi ->
+            val game = gameUi ?: GameUi(0, "", "", "", 0.0, "", false)
+            listGameViewModel.toggleFavorite(game.isFavorite, game)
         },
         searchText = searchText,
-        onSearchChange = listGameViewModel::updateSearch
+        onSearchChange = listGameViewModel::updateSearch,
+        favoriteIds = favoriteIds,
     )
 }
 
@@ -65,6 +65,7 @@ fun ListGamesContent(
     onClickFavorite: (gameUi: GameUi?) -> Unit = {},
     searchText: String,
     onSearchChange: (String) -> Unit,
+    favoriteIds: Set<Int> = emptySet(),
 ) {
     Column(
         modifier = modifier
@@ -85,7 +86,7 @@ fun ListGamesContent(
             games.loadState.refresh is LoadState.Loading -> {
                 ListGamesLoaded(
                     games = null,
-                    onClick = onClick
+                    onClick = onClick,
                 )
             }
 
@@ -101,7 +102,8 @@ fun ListGamesContent(
                 ListGamesLoaded(
                     games = games,
                     onClick = onClick,
-                    onClickFavorite = onClickFavorite
+                    onClickFavorite = onClickFavorite,
+                    favoriteIds = favoriteIds,
                 )
             }
         }
@@ -114,6 +116,7 @@ fun ListGamesLoaded(
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
     onClickFavorite: (gameUi: GameUi?) -> Unit = {},
+    favoriteIds: Set<Int> = emptySet(),
 ) {
     if (games == null) {
         LazyColumn(
@@ -138,13 +141,12 @@ fun ListGamesLoaded(
             )
         ) {
             items(count = games.itemCount) { index ->
+                val game = games[index]
                 GameItem(
-                    gameUi = games[index],
+                    gameUi = game?.copy(isFavorite = game.id in favoriteIds),
                     isLoading = false,
                     onClick = onClick,
-                    onClickFavorite = {
-                        onClickFavorite(it)
-                    }
+                    onClickFavorite = { onClickFavorite(it) }
                 )
             }
 
@@ -184,24 +186,8 @@ fun ListGamesEmpty(modifier: Modifier = Modifier) {
 @Composable
 fun ListGamesSuccessPreview() {
     val fakeGames = listOf(
-        GameUi(
-            1,
-            name = "The Witcher 3",
-            "2015-05-19",
-            "",
-            4.9,
-            "Ação, aventura",
-            false
-        ),
-        GameUi(
-            2,
-            name = "Elden Ring",
-            "2022-02-25",
-            "",
-            4.9,
-            "Ação, aventura",
-            false
-        ),
+        GameUi(1, name = "The Witcher 3", "2015-05-19", "", 4.9, "Ação, aventura", false),
+        GameUi(2, name = "Elden Ring", "2022-02-25", "", 4.9, "Ação, aventura", false),
     )
 
     val pagingData = PagingData.from(fakeGames)

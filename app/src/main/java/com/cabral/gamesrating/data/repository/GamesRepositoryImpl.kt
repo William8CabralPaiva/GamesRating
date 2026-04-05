@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.cabral.gamesrating.BuildConfig
+import com.cabral.gamesrating.data.local.GameFavoriteEntity
 import com.cabral.gamesrating.data.local.toGameFavoriteEntity
 import com.cabral.gamesrating.data.paging.GamesPagingSource
 import com.cabral.gamesrating.data.model.Game
@@ -62,6 +63,10 @@ class GamesRepositoryImpl @Inject constructor(
             throw Exception("Erro na API: ${response.code()}")
         }
     }.flowOn(dispatcher)
+
+    override fun getAllFavorites(): Flow<List<GameFavoriteEntity>> {
+        return localDataSource.getAllFavorites().flowOn(dispatcher)
+    }
 
     override suspend fun saveFavoriteGame(game: GameUi) {
         withContext(dispatcher) {
