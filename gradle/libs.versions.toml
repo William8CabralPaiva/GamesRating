@@ -23,6 +23,8 @@ uiTestJunit4 = "1.10.5"
 uiTestManifest = "1.10.5"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
+turbine = "1.1.0"
+mockk = "1.13.12"
 
 
 [libraries]
@@ -62,6 +64,12 @@ converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 
 # OkHttp (Interceptor de Log)
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+
+# Turbine (Testing library for Flow and StateFlow)
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+# MockK
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
