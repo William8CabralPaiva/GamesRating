@@ -1,6 +1,6 @@
 package com.cabral.gamesrating.di
 
-import com.cabral.gamesrating.data.remote.RemoteDataSourceImpl
+import com.cabral.gamesrating.data.local.datasource.LocalDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -9,11 +9,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RemoteDataSourceModule {
+abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindRemoteDataSource(
-        remoteDataSourceImpl: RemoteDataSourceImpl,
-    ): RemoteDataSource
+    abstract fun bindLocalDataSource(
+        localDataSourceImpl: LocalDataSourceImpl,
+    ): LocalDataSource
 }
+

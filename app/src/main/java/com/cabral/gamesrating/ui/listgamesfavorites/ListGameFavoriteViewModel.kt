@@ -1,4 +1,4 @@
-package com.cabral.gamesrating.ui.listgames
+package com.cabral.gamesrating.ui.listgamesfavorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,6 @@ import androidx.paging.map
 import com.cabral.gamesrating.ui.model.GameUi
 import com.cabral.gamesrating.ui.model.toGameUi
 import com.cabral.gamesrating.domain.usecase.GetAllGamesUseCase
-import com.cabral.gamesrating.domain.usecase.ToggleFavoriteGameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -21,13 +20,11 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListGameViewModel @Inject constructor(
-    private val getAllGamesUseCase: GetAllGamesUseCase,
-    private val toggleFavoriteGameUseCase: ToggleFavoriteGameUseCase,
+class ListGameFavoriteViewModel @Inject constructor(
+    getAllGamesUseCase: GetAllGamesUseCase,
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
@@ -52,10 +49,9 @@ class ListGameViewModel @Inject constructor(
         _searchQuery.value = query
     }
 
-
-    fun toggleFavorite(isFavorite: Boolean, game: GameUi) {
-        viewModelScope.launch {
-            toggleFavoriteGameUseCase(isFavorite, game)
+    fun toggleFavorite(id: Int) {
+        _favorites.update { current ->
+            if (id in current) current - id else current + id
         }
     }
 }

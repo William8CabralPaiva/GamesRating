@@ -46,6 +46,12 @@ fun ListGamesScreen(
         games = games,
         modifier = modifier,
         onClick = onClick,
+        onClickFavorite = {
+            listGameViewModel.toggleFavorite(
+                it?.isFavorite ?: false,
+                it ?: GameUi(0, "", "", "", 0.0, "", false)
+            )
+        },
         searchText = searchText,
         onSearchChange = listGameViewModel::updateSearch
     )
@@ -56,6 +62,7 @@ fun ListGamesContent(
     games: LazyPagingItems<GameUi>,
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
+    onClickFavorite: (gameUi: GameUi?) -> Unit = {},
     searchText: String,
     onSearchChange: (String) -> Unit,
 ) {
@@ -93,7 +100,8 @@ fun ListGamesContent(
             else -> {
                 ListGamesLoaded(
                     games = games,
-                    onClick = onClick
+                    onClick = onClick,
+                    onClickFavorite = onClickFavorite
                 )
             }
         }
@@ -105,6 +113,7 @@ fun ListGamesLoaded(
     games: LazyPagingItems<GameUi>?,
     modifier: Modifier = Modifier,
     onClick: (id: Int) -> Unit = {},
+    onClickFavorite: (gameUi: GameUi?) -> Unit = {},
 ) {
     if (games == null) {
         LazyColumn(
@@ -134,7 +143,7 @@ fun ListGamesLoaded(
                     isLoading = false,
                     onClick = onClick,
                     onClickFavorite = {
-                        //requst
+                        onClickFavorite(it)
                     }
                 )
             }
@@ -178,26 +187,18 @@ fun ListGamesSuccessPreview() {
         GameUi(
             1,
             name = "The Witcher 3",
-            emptyList(),
             "2015-05-19",
             "",
             4.9,
-            emptyList(),
-            4.9,
-            emptyList(),
             "Ação, aventura",
             false
         ),
         GameUi(
             2,
             name = "Elden Ring",
-            emptyList(),
             "2022-02-25",
             "",
             4.9,
-            emptyList(),
-            4.9,
-            emptyList(),
             "Ação, aventura",
             false
         ),

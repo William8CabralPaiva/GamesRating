@@ -1,4 +1,10 @@
 package com.cabral.gamesrating.di
 
-class LocalDataSource {
+import com.cabral.gamesrating.data.local.GameFavoriteEntity
+import kotlinx.coroutines.flow.Flow
+
+interface LocalDataSource {
+    suspend fun insertFavorite(game: GameFavoriteEntity)
+    suspend fun deleteFavoriteById(gameId: Int)
+    fun getAllFavorites(): Flow<List<GameFavoriteEntity>>
 }

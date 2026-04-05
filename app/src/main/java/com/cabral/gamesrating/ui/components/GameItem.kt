@@ -154,13 +154,9 @@ fun GameItemPreview() {
     val gameUi = GameUi(
         0,
         name = "Shadow of the colossus",
-        platforms = listOf(),
         released = "",
         backgroundImage = "",
         rating = 5.0,
-        tags = listOf(),
-        score = 0.0,
-        shortScreenshots = listOf(),
         genres = "Ação, Aventura",
         false
     )
