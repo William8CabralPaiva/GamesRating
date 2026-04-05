@@ -33,7 +33,6 @@ class GameDetailViewModel @Inject constructor(
 
             getGameDetailByIdUseCase(id)
                 .catch { exception ->
-                    // Trata erro de rede ou parsing
                     _uiState.value = GamesUiState.Error(exception.message ?: "Erro desconhecido")
                 }
                 .collect { gameResponse ->

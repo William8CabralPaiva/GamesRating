@@ -12,7 +12,7 @@ interface GamesRepository {
     fun getAllGames(search: String): Flow<PagingData<Game>>
     fun getGameById(id: Int): Flow<GameDetailResponse>
     fun getScreenshots(id: Int): Flow<ScreenshotResponse>
-    fun getAllFavorites(): Flow<List<GameFavoriteEntity>>
+    fun getAllFavorites(): Flow<List<GameUi>>
     suspend fun saveFavoriteGame(game: GameUi): Unit
     suspend fun deleteFavoriteGame(id: Int): Unit
 }

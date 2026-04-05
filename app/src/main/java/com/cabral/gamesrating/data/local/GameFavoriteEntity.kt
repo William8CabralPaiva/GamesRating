@@ -36,3 +36,15 @@ fun GameUi.toGameFavoriteEntity(): GameFavoriteEntity {
     )
 }
 
+fun GameFavoriteEntity.toGameUi(): GameUi {
+    return GameUi(
+        id = id,
+        name = name,
+        released = released,
+        backgroundImage = backgroundImage,
+        rating = rating ?: 0.0,
+        genres = genres,
+        isFavorite = true
+    )
+}
+

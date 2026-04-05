@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.cabral.gamesrating.BuildConfig
 import com.cabral.gamesrating.data.local.GameFavoriteEntity
 import com.cabral.gamesrating.data.local.toGameFavoriteEntity
+import com.cabral.gamesrating.data.local.toGameUi
 import com.cabral.gamesrating.data.paging.GamesPagingSource
 import com.cabral.gamesrating.data.model.Game
 import com.cabral.gamesrating.di.LocalDataSource
@@ -20,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -64,8 +66,10 @@ class GamesRepositoryImpl @Inject constructor(
         }
     }.flowOn(dispatcher)
 
-    override fun getAllFavorites(): Flow<List<GameFavoriteEntity>> {
-        return localDataSource.getAllFavorites().flowOn(dispatcher)
+    override fun getAllFavorites(): Flow<List<GameUi>> {
+        return localDataSource.getAllFavorites()
+            .map { entities -> entities.map { it.toGameUi() } }
+            .flowOn(dispatcher)
     }
 
     override suspend fun saveFavoriteGame(game: GameUi) {

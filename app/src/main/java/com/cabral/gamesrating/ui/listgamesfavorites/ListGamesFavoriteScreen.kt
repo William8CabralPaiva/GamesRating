@@ -1,245 +1,185 @@
-//package com.cabral.gamesrating.ui.listgamesfavorites
-//
-//import androidx.compose.foundation.layout.Arrangement
-//import androidx.compose.foundation.layout.Box
-//import androidx.compose.foundation.layout.Column
-//import androidx.compose.foundation.layout.PaddingValues
-//import androidx.compose.foundation.layout.Spacer
-//import androidx.compose.foundation.layout.fillMaxSize
-//import androidx.compose.foundation.layout.fillMaxWidth
-//import androidx.compose.foundation.layout.height
-//import androidx.compose.foundation.layout.padding
-//import androidx.compose.foundation.lazy.LazyColumn
-//import androidx.compose.material3.CircularProgressIndicator
-//import androidx.compose.material3.OutlinedTextField
-//import androidx.compose.material3.Surface
-//import androidx.compose.material3.Text
-//import androidx.compose.runtime.Composable
-//import androidx.compose.runtime.collectAsState
-//import androidx.compose.runtime.getValue
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.res.stringResource
-//import androidx.compose.ui.tooling.preview.Preview
-//import androidx.compose.ui.unit.dp
-//import androidx.hilt.navigation.compose.hiltViewModel
-//import androidx.paging.LoadState
-//import androidx.paging.PagingData
-//import androidx.paging.compose.LazyPagingItems
-//import androidx.paging.compose.collectAsLazyPagingItems
-//import com.cabral.gamesrating.R
-//import com.cabral.gamesrating.ui.components.GameItem
-//import com.cabral.gamesrating.ui.model.GameUi
-//import com.cabral.gamesrating.ui.theme.GamesRatingTheme
-//import kotlinx.coroutines.flow.flowOf
-//
-//@Composable
-//fun ListGameFavoriteScreen(
-//    modifier: Modifier = Modifier,
-//    onClick: (id: Int) -> Unit = {},
-//    listMoviesViewModel: ListGameFavoriteViewModel = hiltViewModel(),
-//) {
-//    val games = listMoviesViewModel.games.collectAsLazyPagingItems()
-//    val searchText by listMoviesViewModel.searchQuery.collectAsState()
-//
-//    ListGameFavoriteContent(
-//        games = games,
-//        modifier = modifier,
-//        onClick = onClick,
-//        searchText = searchText,
-//        onSearchChange = listMoviesViewModel::updateSearch
-//    )
-//}
-//
-//@Composable
-//fun ListGameFavoriteContent(
-//    games: LazyPagingItems<GameUi>,
-//    modifier: Modifier = Modifier,
-//    onClick: (id: Int) -> Unit = {},
-//    searchText: String,
-//    onSearchChange: (String) -> Unit,
-//) {
-//    Column(
-//        modifier = modifier
-//            .padding(horizontal = 8.dp)
-//    ) {
-//
-//        OutlinedTextField(
-//            value = searchText,
-//            onValueChange = onSearchChange,
-//            enabled = games.loadState.refresh is LoadState.NotLoading,
-//            modifier = Modifier.fillMaxWidth(),
-//            label = { Text(stringResource(R.string.search)) }
-//        )
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        when {
-//            games.loadState.refresh is LoadState.Loading -> {
-//                ListGameFavoriteLoaded(
-//                    games = null,
-//                    onClick = onClick
-//                )
-//            }
-//
-//            games.loadState.refresh is LoadState.Error -> {
-//                ListGameFavoriteError()
-//            }
-//
-//            games.itemCount == 0 -> {
-//                ListGameFavoriteEmpty()
-//            }
-//
-//            else -> {
-//                ListGameFavoriteLoaded(
-//                    games = games,
-//                    onClick = onClick
-//                )
-//            }
-//        }
-//    }
-//}
-//
-//@Composable
-//fun ListGameFavoriteLoaded(
-//    games: LazyPagingItems<GameUi>?,
-//    modifier: Modifier = Modifier,
-//    onClick: (id: Int) -> Unit = {},
-//) {
-//    if (games == null) {
-//        LazyColumn(
-//            modifier = modifier.fillMaxSize(),
-//            verticalArrangement = Arrangement.spacedBy(16.dp),
-//            contentPadding = PaddingValues(
-//                horizontal = 10.dp,
-//                vertical = 8.dp
-//            )
-//        ) {
-//            items(10) {
-//                GameItem(gameUi = null, isLoading = true)
-//            }
-//        }
-//    } else {
-//        LazyColumn(
-//            modifier = modifier,
-//            verticalArrangement = Arrangement.spacedBy(16.dp),
-//            contentPadding = PaddingValues(
-//                horizontal = 10.dp,
-//                vertical = 8.dp
-//            )
-//        ) {
-//            items(count = games.itemCount) { index ->
-//                GameItem(
-//                    gameUi = games[index],
-//                    isLoading = false,
-//                    onClick = onClick,
-//                    onClickFavorite = {
-//                        //requst
-//                    }
-//                )
-//            }
-//
-//            if (games.loadState.append is LoadState.Loading) {
-//                item {
-//                    Box(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        contentAlignment = Alignment.Center
-//                    ) {
-//                        CircularProgressIndicator(
-//                            modifier = Modifier.padding(16.dp)
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//@Composable
-//fun ListGameFavoriteError(modifier: Modifier = Modifier) {
-//    Text(
-//        text = stringResource(R.string.error_list),
-//        modifier = modifier.padding(16.dp)
-//    )
-//}
-//
-//@Composable
-//fun ListGameFavoriteEmpty(modifier: Modifier = Modifier) {
-//    Text(
-//        text = stringResource(R.string.empty_list),
-//        modifier = modifier.padding(16.dp)
-//    )
-//}
-//
-//@Preview(showBackground = true, name = "Success State")
-//@Composable
-//fun ListGameFavoriteSuccessPreview() {
-//    val fakeGames = listOf(
-//        GameUi(
-//            1,
-//            name = "The Witcher 3",
-//            emptyList(),
-//            "2015-05-19",
-//            "",
-//            4.9,
-//            emptyList(),
-//            4.9,
-//            emptyList(),
-//            "Ação, aventura",
-//            false
-//        ),
-//        GameUi(
-//            2,
-//            name = "Elden Ring",
-//            emptyList(),
-//            "2022-02-25",
-//            "",
-//            4.9,
-//            emptyList(),
-//            4.9,
-//            emptyList(),
-//            "Ação, aventura",
-//            false
-//        ),
-//    )
-//
-//    val pagingData = PagingData.from(fakeGames)
-//    val flow = flowOf(pagingData)
-//    val lazyItems = flow.collectAsLazyPagingItems()
-//
-//    GamesRatingTheme {
-//        Surface {
-//            ListGameFavoriteLoaded(games = lazyItems)
-//        }
-//    }
-//}
-//
-//@Preview(showBackground = true, name = "Loading State")
-//@Composable
-//fun ListGameFavoriteLoadingPreview() {
-//    GamesRatingTheme {
-//        Surface {
-//            ListGameFavoriteLoaded(games = null)
-//        }
-//    }
-//}
-//
-//@Preview(showBackground = true, name = "Error State")
-//@Composable
-//fun ListGameFavoriteErrorPreview() {
-//    GamesRatingTheme {
-//        Surface {
-//            ListGameFavoriteError()
-//        }
-//    }
-//}
-//
-//@Preview(showBackground = true, name = "Empty State")
-//@Composable
-//fun ListGameFavoriteEmptyPreview() {
-//    GamesRatingTheme {
-//        Surface {
-//            ListGameFavoriteEmpty()
-//        }
-//    }
-//}
+package com.cabral.gamesrating.ui.listgamesfavorites
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cabral.gamesrating.R
+import com.cabral.gamesrating.ui.components.GameItem
+import com.cabral.gamesrating.ui.model.GameUi
+import com.cabral.gamesrating.ui.theme.GamesRatingTheme
+
+@Composable
+fun ListGamesFavoriteScreen(
+    modifier: Modifier = Modifier,
+    onClick: (id: Int) -> Unit = {},
+    listGamesViewModel: ListGameFavoriteViewModel = hiltViewModel(),
+) {
+    val uiState by listGamesViewModel.uiState.collectAsStateWithLifecycle()
+
+    ListGameFavoriteContent(
+        uiState = uiState,
+        modifier = modifier,
+        onClick = onClick,
+        onClickFavorite = { id -> listGamesViewModel.removeFavorite(id) }
+    )
+}
+
+@Composable
+fun ListGameFavoriteContent(
+    uiState: FavoritesGamesUiState,
+    modifier: Modifier = Modifier,
+    onClick: (id: Int) -> Unit = {},
+    onClickFavorite: (id: Int) -> Unit = {},
+) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+    ) {
+        when (uiState) {
+            is FavoritesGamesUiState.Loading -> {
+                ListGameFavoriteLoaded(
+                    games = null,
+                    onClick = onClick
+                )
+            }
+
+            is FavoritesGamesUiState.Error -> {
+                ListGameFavoriteError()
+            }
+
+            is FavoritesGamesUiState.Success -> {
+                if (uiState.listGames.isNullOrEmpty()) {
+                    ListGameFavoriteEmpty()
+                } else {
+                    ListGameFavoriteLoaded(
+                        games = uiState.listGames,
+                        onClick = onClick,
+                        onClickFavorite = onClickFavorite
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ListGameFavoriteLoaded(
+    games: List<GameUi>?,
+    modifier: Modifier = Modifier,
+    onClick: (id: Int) -> Unit = {},
+    onClickFavorite: (id: Int) -> Unit = {},
+) {
+    if (games == null) {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                horizontal = 10.dp,
+                vertical = 8.dp
+            )
+        ) {
+            items(10) {
+                GameItem(gameUi = null, isLoading = true)
+            }
+        }
+    } else {
+        LazyColumn(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                horizontal = 10.dp,
+                vertical = 8.dp
+            )
+        ) {
+            items(
+                count = games.size,
+                key = { index -> games[index].id }
+            ) { index ->
+                GameItem(
+                    gameUi = games[index],
+                    isLoading = false,
+                    onClick = onClick,
+                    onClickFavorite = {
+                        it?.id?.let { id ->
+                            onClickFavorite(id)
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ListGameFavoriteError(modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.error_list),
+        modifier = modifier.padding(16.dp)
+    )
+}
+
+@Composable
+fun ListGameFavoriteEmpty(modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.empty_list),
+        modifier = modifier.padding(16.dp)
+    )
+}
+
+@Preview(showBackground = true, name = "Success State")
+@Composable
+fun ListGameFavoriteSuccessPreview() {
+    val fakeGames = listOf(
+        GameUi(1, "The Witcher 3", "2015-05-19", "", 4.9, "Ação, aventura", false),
+        GameUi(2, "Elden Ring", "2022-02-25", "", 4.9, "Ação, aventura", false),
+    )
+
+    GamesRatingTheme {
+        Surface {
+            ListGameFavoriteLoaded(games = fakeGames)
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Loading State")
+@Composable
+fun ListGameFavoriteLoadingPreview() {
+    GamesRatingTheme {
+        Surface {
+            ListGameFavoriteLoaded(games = null)
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Error State")
+@Composable
+fun ListGameFavoriteErrorPreview() {
+    GamesRatingTheme {
+        Surface {
+            ListGameFavoriteError()
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Empty State")
+@Composable
+fun ListGameFavoriteEmptyPreview() {
+    GamesRatingTheme {
+        Surface {
+            ListGameFavoriteEmpty()
+        }
+    }
+}

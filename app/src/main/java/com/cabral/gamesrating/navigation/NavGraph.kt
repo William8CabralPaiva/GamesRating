@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.cabral.gamesrating.ui.gamedetail.GameDetailScreen
 import com.cabral.gamesrating.ui.listgames.ListGamesScreen
+import com.cabral.gamesrating.ui.listgamesfavorites.ListGamesFavoriteScreen
 
 @Composable
 fun NavGraph(
@@ -29,7 +30,9 @@ fun NavGraph(
         }
 
         composable(Routes.Favorites.route) {
-            Text("tela favorito")
+            ListGamesFavoriteScreen(modifier, onClick = {
+                navController.navigate(Routes.GameDetail.createRoute(it))
+            })
         }
 
         composable(
