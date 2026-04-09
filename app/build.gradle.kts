@@ -83,6 +83,7 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
+    testImplementation(libs.hilt.android.testing)
     kapt(libs.hilt.android.compiler)
 
     // Para integração com ViewModel do Compose
