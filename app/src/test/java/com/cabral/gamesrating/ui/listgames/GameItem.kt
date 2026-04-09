@@ -34,13 +34,9 @@ class GameItemTest {
     ) = GameUi(
         id = id,
         name = name,
-        platforms = listOf(),
         released = "",
         backgroundImage = "https://image.url",
         rating = rating,
-        tags = listOf(),
-        score = 0.0,
-        shortScreenshots = listOf(),
         genres = genres,
         isFavorite = isFavorite,
     )
