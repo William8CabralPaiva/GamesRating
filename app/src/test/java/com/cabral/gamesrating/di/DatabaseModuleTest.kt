@@ -1,6 +1,7 @@
 package com.cabral.gamesrating.di
 
 import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cabral.gamesrating.data.local.GameDao
 import io.mockk.every
 import io.mockk.mockk
@@ -10,8 +11,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import org.junit.Rule
 
 class DatabaseModuleTest {
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun `provideGameDao should return gameDao from database`() {

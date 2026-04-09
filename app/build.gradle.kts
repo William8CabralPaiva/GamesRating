@@ -37,7 +37,10 @@ android {
     }
 
     testOptions {
-        unitTests.isIncludeAndroidResources = true
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
     }
 
     buildTypes {
@@ -61,6 +64,11 @@ android {
         // 3. Habilita a geração da classe BuildConfig
         buildConfig = true
     }
+}
+
+tasks.withType<Test> {
+    forkEvery = 1  // ← isso aqui é a chave
+    maxParallelForks = 1
 }
 
 dependencies {
@@ -104,8 +112,10 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.androidx.test.core)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core.testing)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

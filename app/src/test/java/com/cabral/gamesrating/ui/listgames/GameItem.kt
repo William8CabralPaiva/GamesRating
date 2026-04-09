@@ -37,6 +37,7 @@ class GameItemTest {
         released = "",
         backgroundImage = "https://image.url",
         rating = rating,
+
         genres = genres,
         isFavorite = isFavorite,
     )

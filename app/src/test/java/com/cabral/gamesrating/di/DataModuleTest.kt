@@ -1,14 +1,19 @@
 package com.cabral.gamesrating.di
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cabral.gamesrating.data.repository.GamesRepositoryImpl
 import com.cabral.gamesrating.domain.repository.GamesRepository
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Rule
 import org.junit.Test
 
 class DataModuleTest {
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun `bindGamesRepository should return GamesRepositoryImpl instance`() {

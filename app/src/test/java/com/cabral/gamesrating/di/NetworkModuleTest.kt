@@ -1,15 +1,20 @@
 package com.cabral.gamesrating.di
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cabral.gamesrating.data.remote.GamesApi
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Rule
 import org.junit.Test
 import retrofit2.Retrofit
 
 class NetworkModuleTest {
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun `provideRetrofit should configure retrofit with correct base url`() {
