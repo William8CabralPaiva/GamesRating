@@ -64,10 +64,25 @@ android {
         // 3. Habilita a geração da classe BuildConfig
         buildConfig = true
     }
+
+
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/AL2.0",
+                "META-INF/LGPL2.1",
+                "**/attach_hotspot_windows.dll",
+                "META-INF/licenses/**",
+            )
+        }
+    }
 }
 
+// ← Para unit tests (robolectric/local), desabilita verificação de bytecode
+// que conflita com a instrumentação de coverage do Kotlin inline functions
 tasks.withType<Test> {
-    forkEvery = 1  // ← isso aqui é a chave
+    jvmArgs("-noverify")
+    forkEvery = 1
     maxParallelForks = 1
 }
 
@@ -124,5 +139,4 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
 }
