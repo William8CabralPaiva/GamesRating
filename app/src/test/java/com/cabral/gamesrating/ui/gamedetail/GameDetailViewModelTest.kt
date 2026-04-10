@@ -2,6 +2,7 @@ package com.cabral.gamesrating.ui.gamedetail
 
 import androidx.lifecycle.SavedStateHandle
 import com.cabral.gamesrating.domain.usecase.GetGameDetailByIdUseCase
+import com.cabral.gamesrating.domain.usecase.SaveImageUseCase
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
 import io.mockk.every
 import io.mockk.mockk
@@ -23,6 +24,7 @@ import org.junit.Test
 class GameDetailViewModelTest {
 
     private val getGameDetailByIdUseCase: GetGameDetailByIdUseCase = mockk()
+    private val saveImageUseCase: SaveImageUseCase = mockk(relaxed = true)
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: GameDetailViewModel
 
@@ -46,7 +48,8 @@ class GameDetailViewModelTest {
         every { getGameDetailByIdUseCase(gameId) } returns flowOf(mockGameDetail)
 
         // When
-        viewModel = GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase)
+        viewModel =
+            GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase, saveImageUseCase)
         advanceUntilIdle()
 
         // Then
@@ -67,7 +70,8 @@ class GameDetailViewModelTest {
         }
 
         // When
-        viewModel = GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase)
+        viewModel =
+            GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase, saveImageUseCase)
         advanceUntilIdle()
 
         // Then
@@ -84,7 +88,8 @@ class GameDetailViewModelTest {
         every { getGameDetailByIdUseCase(gameId) } returns flowOf(mockk())
 
         // When
-        viewModel = GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase)
+        viewModel =
+            GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase, saveImageUseCase)
 
         // Then
         assertEquals(GamesUiState.Loading, viewModel.uiState.value)

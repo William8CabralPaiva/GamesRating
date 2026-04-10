@@ -1,6 +1,7 @@
 package com.cabral.gamesrating.ui.gamedetail
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -28,6 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,7 +52,6 @@ import com.cabral.gamesrating.ui.components.ExpandableHtmlText
 import com.cabral.gamesrating.ui.components.RatingLayout
 import com.cabral.gamesrating.ui.components.RatingStar
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
-import com.cabral.gamesrating.utils.Utils.saveImageFromUrl
 import com.cabral.gamesrating.utils.shimmer
 
 @Composable
@@ -60,19 +61,38 @@ fun GameDetailScreen(
 ) {
     val uiState by gameDetailViewmodel.uiState.collectAsStateWithLifecycle()
 
-    GameDetailContent(uiState = uiState, modifier = modifier)
-}
+    val context = LocalContext.current
 
+    LaunchedEffect(Unit) {
+        gameDetailViewmodel.eventFlow.collect {
+            showToast(context, it)
+        }
+    }
+
+    GameDetailContent(
+        uiState = uiState,
+        modifier = modifier,
+        onDownloadClick = { url, name ->
+            gameDetailViewmodel.downloadImage(url, name)
+        }
+    )
+}
 
 @Composable
 fun GameDetailContent(
     uiState: GamesUiState,
     modifier: Modifier = Modifier,
+    onDownloadClick: (String, String) -> Unit = { _, _ -> },
 ) {
     Box(modifier = modifier.testTag("game_detail_content")) {
         when (uiState) {
             is GamesUiState.Loading -> GameDetailLoading(modifier)
-            is GamesUiState.Success -> GameDetailSuccess(uiState.game, modifier)
+            is GamesUiState.Success -> GameDetailSuccess(
+                game = uiState.game,
+                modifier = modifier,
+                onDownloadClick = onDownloadClick
+            )
+
             is GamesUiState.Error -> GameDetailError(uiState.message, modifier)
         }
     }
@@ -89,7 +109,6 @@ fun GameDetailLoading(
             .verticalScroll(rememberScrollState())
             .testTag("loading_state")
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -118,9 +137,7 @@ fun GameDetailLoading(
                     .height(24.dp)
                     .shimmer()
             )
-
             Spacer(modifier = Modifier.height(12.dp))
-
             repeat(3) {
                 Box(
                     modifier = Modifier
@@ -130,18 +147,6 @@ fun GameDetailLoading(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            repeat(4) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(16.dp)
-                        .shimmer()
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-            }
         }
     }
 }
@@ -150,9 +155,8 @@ fun GameDetailLoading(
 fun GameDetailSuccess(
     game: GameDetailScreenshots,
     modifier: Modifier = Modifier,
+    onDownloadClick: (String, String) -> Unit,
 ) {
-    val context = LocalContext.current
-
     var selectedImage by remember { mutableStateOf(game.backgroundImage) }
 
     Column(
@@ -182,10 +186,11 @@ fun GameDetailSuccess(
                         .testTag("selected_image")
                 )
             }
+
             IconButton(
                 onClick = {
-                    selectedImage?.let {
-                        saveImage(context, it, game.name)
+                    selectedImage?.let { url ->
+                        onDownloadClick(url, game.name)
                     }
                 },
                 modifier = Modifier
@@ -275,7 +280,6 @@ fun GameDetailSuccess(
                     ExpandableHtmlText(AnnotatedString.fromHtml(it))
                 }
             }
-
         }
     }
 }
@@ -295,8 +299,8 @@ fun GameDetailError(
     }
 }
 
-fun saveImage(context: Context, imageUrl: String, fileName: String) {
-    saveImageFromUrl(context, imageUrl, fileName)
+private fun showToast(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
 @Preview(showBackground = true)
@@ -308,9 +312,7 @@ fun GameDetailLoadingPreview() {
 @Preview(showBackground = true)
 @Composable
 fun GameDetailErrorPreview() {
-    GameDetailError(
-        message = "Erro ao carregar jogo 😢"
-    )
+    GameDetailError(message = "Erro ao carregar jogo 😢")
 }
 
 @Preview(showBackground = true)
@@ -329,6 +331,7 @@ fun GameDetailContentSuccessPreview() {
     )
 
     GameDetailContent(
-        uiState = GamesUiState.Success(mockGame)
+        uiState = GamesUiState.Success(mockGame),
+        onDownloadClick = { _, _ -> }
     )
 }
