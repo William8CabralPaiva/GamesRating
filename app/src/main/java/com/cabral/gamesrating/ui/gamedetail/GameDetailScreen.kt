@@ -22,15 +22,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +38,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
@@ -73,10 +69,12 @@ fun GameDetailContent(
     uiState: GamesUiState,
     modifier: Modifier = Modifier,
 ) {
-    when (uiState) {
-        is GamesUiState.Loading -> GameDetailLoading(modifier)
-        is GamesUiState.Success -> GameDetailSuccess(uiState.game, modifier)
-        is GamesUiState.Error -> GameDetailError(uiState.message, modifier)
+    Box(modifier = modifier.testTag("game_detail_content")) {
+        when (uiState) {
+            is GamesUiState.Loading -> GameDetailLoading(modifier)
+            is GamesUiState.Success -> GameDetailSuccess(uiState.game, modifier)
+            is GamesUiState.Error -> GameDetailError(uiState.message, modifier)
+        }
     }
 }
 
@@ -89,6 +87,7 @@ fun GameDetailLoading(
             .fillMaxSize()
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
+            .testTag("loading_state")
     ) {
 
         Box(
@@ -100,7 +99,7 @@ fun GameDetailLoading(
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(2.dp),
-            userScrollEnabled = false // Desabilita scroll no loading se preferir
+            userScrollEnabled = false
         ) {
             items(10) {
                 Box(
@@ -161,6 +160,7 @@ fun GameDetailSuccess(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .systemBarsPadding()
+            .testTag("game_detail_success")
     ) {
         Box(
             modifier = Modifier
@@ -174,11 +174,12 @@ fun GameDetailSuccess(
             ) { targetImage ->
                 AsyncImage(
                     model = targetImage,
-                    contentDescription = null,
+                    contentDescription = "Imagem selecionada",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
+                        .testTag("selected_image")
                 )
             }
             IconButton(
@@ -194,6 +195,7 @@ fun GameDetailSuccess(
                         color = Color.Black.copy(alpha = 0.6f),
                         shape = RoundedCornerShape(8.dp)
                     )
+                    .testTag("download_button")
             ) {
                 Icon(
                     imageVector = Icons.Default.Download,
@@ -208,6 +210,7 @@ fun GameDetailSuccess(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(8.dp)
+                    .testTag("rating_surface")
             ) {
                 RatingStar(
                     rating = game.rating,
@@ -220,47 +223,57 @@ fun GameDetailSuccess(
         }
 
         if (!game.screenshots.isNullOrEmpty()) {
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                modifier = Modifier.testTag("screenshots_row")
+            ) {
                 items(game.screenshots) { screenshot ->
                     AsyncImage(
                         model = screenshot,
-                        contentDescription = "",
+                        contentDescription = "Screenshot",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .width(64.dp)
                             .height(64.dp)
                             .clickable {
                                 selectedImage = screenshot
-                            },
+                            }
+                            .testTag("screenshot_item"),
                     )
                 }
             }
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = game.name, fontWeight = FontWeight.Bold)
+            Text(
+                text = game.name,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.testTag("game_name")
+            )
             Spacer(modifier = Modifier.height(8.dp))
 
             game.platforms?.let {
-                Text(text = it)
+                Text(text = it, modifier = Modifier.testTag("game_platforms"))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             game.genres?.let {
-                Text(text = it)
+                Text(text = it, modifier = Modifier.testTag("game_genres"))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             game.released?.let {
-                Text(text = it)
+                Text(text = it, modifier = Modifier.testTag("game_released"))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             game.description?.let {
-                ExpandableHtmlText(AnnotatedString.fromHtml(it))
+                Box(modifier = Modifier.testTag("game_description")) {
+                    ExpandableHtmlText(AnnotatedString.fromHtml(it))
+                }
             }
 
         }
@@ -273,10 +286,12 @@ fun GameDetailError(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("error_state"),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = message)
+        Text(text = message, modifier = Modifier.testTag("error_message"))
     }
 }
 

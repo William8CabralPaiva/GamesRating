@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,13 +71,16 @@ fun ListGamesContent(
     Column(
         modifier = modifier
             .padding(horizontal = 8.dp)
+            .testTag("list_games_content")
     ) {
 
         OutlinedTextField(
             value = searchText,
             onValueChange = onSearchChange,
             enabled = games.loadState.refresh is LoadState.NotLoading,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("search_field"),
             label = { Text(stringResource(R.string.search)) }
         )
 
@@ -87,15 +91,16 @@ fun ListGamesContent(
                 ListGamesLoaded(
                     games = null,
                     onClick = onClick,
+                    modifier = Modifier.testTag("loading_state")
                 )
             }
 
             games.loadState.refresh is LoadState.Error -> {
-                ListGamesError()
+                ListGamesError(modifier = Modifier.testTag("error_state"))
             }
 
             games.itemCount == 0 -> {
-                ListGamesEmpty()
+                ListGamesEmpty(modifier = Modifier.testTag("empty_state"))
             }
 
             else -> {
@@ -104,6 +109,7 @@ fun ListGamesContent(
                     onClick = onClick,
                     onClickFavorite = onClickFavorite,
                     favoriteIds = favoriteIds,
+                    modifier = Modifier.testTag("games_list")
                 )
             }
         }
@@ -153,7 +159,9 @@ fun ListGamesLoaded(
             if (games.loadState.append is LoadState.Loading) {
                 item {
                     Box(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag("append_loading"),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator(

@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,27 +48,30 @@ fun ListGameFavoriteContent(
     Column(
         modifier = modifier
             .padding(horizontal = 8.dp)
+            .testTag("list_favorite_content")
     ) {
         when (uiState) {
             is FavoritesGamesUiState.Loading -> {
                 ListGameFavoriteLoaded(
                     games = null,
-                    onClick = onClick
+                    onClick = onClick,
+                    modifier = Modifier.testTag("loading_state")
                 )
             }
 
             is FavoritesGamesUiState.Error -> {
-                ListGameFavoriteError()
+                ListGameFavoriteError(modifier = Modifier.testTag("error_state"))
             }
 
             is FavoritesGamesUiState.Success -> {
                 if (uiState.listGames.isNullOrEmpty()) {
-                    ListGameFavoriteEmpty()
+                    ListGameFavoriteEmpty(modifier = Modifier.testTag("empty_state"))
                 } else {
                     ListGameFavoriteLoaded(
                         games = uiState.listGames,
                         onClick = onClick,
-                        onClickFavorite = onClickFavorite
+                        onClickFavorite = onClickFavorite,
+                        modifier = Modifier.testTag("favorite_list")
                     )
                 }
             }
