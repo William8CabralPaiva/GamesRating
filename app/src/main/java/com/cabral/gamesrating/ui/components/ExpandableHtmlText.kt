@@ -25,7 +25,7 @@ import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 
 @Composable
 fun ExpandableHtmlText(
-    text: AnnotatedString,          // agora recebe AnnotatedString direto
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     minimizedMaxLines: Int = 4,
 ) {
