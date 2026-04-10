@@ -1,8 +1,6 @@
 package com.cabral.gamesrating.ui.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Star
@@ -22,38 +20,72 @@ import androidx.compose.ui.unit.sp
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 import com.cabral.gamesrating.utils.shimmer
 
+enum class RatingLayout {
+    Vertical,
+    Horizontal
+}
+
 @Composable
 fun RatingStar(
     rating: Double?,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
+    layout: RatingLayout = RatingLayout.Vertical,
+    textColor: Color = Color.Black,
 ) {
 
     val icon = when {
-        rating != null && rating >= 4.0 -> Icons.Default.Star // Quase cheia ou cheia
-        rating != null && rating >= 2.0 -> Icons.AutoMirrored.Filled.StarHalf // Entre 0.3 e 0.7 usamos meia estrela
-        else -> Icons.Default.StarOutline // Menos que 0.3 fica vazia
+        rating != null && rating >= 4.0 -> Icons.Default.Star
+        rating != null && rating >= 2.0 -> Icons.AutoMirrored.Filled.StarHalf
+        else -> Icons.Default.StarOutline
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = "Rating: $rating",
-            tint = Color(0xFFFFC107),
-            modifier = Modifier.shimmer(isLoading)
-        )
-
-        Text(
-            text = rating.toString(),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.shimmer(isLoading)
-        )
+    if (layout == RatingLayout.Vertical) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+        ) {
+            StarContent(icon, rating, isLoading, textColor, isVertical = true)
+        }
+    } else {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+        ) {
+            StarContent(icon, rating, isLoading, textColor, isVertical = false)
+        }
     }
+}
+
+@Composable
+private fun StarContent(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    rating: Double?,
+    isLoading: Boolean,
+    textColor: Color,
+    isVertical: Boolean
+) {
+    Icon(
+        imageVector = icon,
+        contentDescription = "Rating: $rating",
+        tint = Color(0xFFFFC107),
+        modifier = Modifier.shimmer(isLoading)
+    )
+
+    if (isVertical) {
+        Spacer(modifier = Modifier.size(4.dp))
+    } else {
+        Spacer(modifier = Modifier.width(4.dp))
+    }
+
+    Text(
+        text = rating?.toString() ?: "-",
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        style = MaterialTheme.typography.bodySmall,
+        color = textColor,
+        modifier = Modifier.shimmer(isLoading)
+    )
 }
 
 @Preview(showBackground = true)
@@ -61,11 +93,42 @@ fun RatingStar(
 fun RatingStarPreview() {
     GamesRatingTheme {
         Surface {
-            Row(modifier = Modifier.padding(16.dp)) {
-                RatingStar(rating = 5.0, false, modifier = Modifier.padding(8.dp)) // Cheia
-                RatingStar(rating = 2.5, false, modifier = Modifier.padding(8.dp)) // Metade
-                RatingStar(rating = 0.1, false, modifier = Modifier.padding(8.dp)) // Vazia
-                RatingStar(rating = 0.1, true, modifier = Modifier.padding(8.dp)) // Vazia
+            Column(modifier = Modifier.padding(16.dp)) {
+
+                // ⭐ Casos normais (vertical)
+                Row {
+                    RatingStar(5.0, false, modifier = Modifier.padding(8.dp))
+                    RatingStar(2.5, false, modifier = Modifier.padding(8.dp))
+                    RatingStar(0.0, false, modifier = Modifier.padding(8.dp)) // 👈 zero
+                }
+
+                // ⭐ Horizontal
+                Row {
+                    RatingStar(
+                        rating = 4.5,
+                        isLoading = false,
+                        layout = RatingLayout.Horizontal,
+                        textColor = Color.Red,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+
+                // ⏳ Loading
+                Row {
+                    RatingStar(
+                        rating = 3.5,
+                        isLoading = true,
+                        modifier = Modifier.padding(8.dp)
+                    )
+
+                    RatingStar(
+                        rating = 0.0,
+                        isLoading = true,
+                        layout = RatingLayout.Horizontal,
+                        textColor = Color.White,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
             }
         }
     }
