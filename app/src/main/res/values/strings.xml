@@ -10,4 +10,6 @@
     <string name="favorite">Favorites</string>
     <string name="settings">Settings</string>
     <string name="favorite_button">Botão para favoritar</string>
+    <string name="dark_theme_enable">Enable Dark Theme</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>
