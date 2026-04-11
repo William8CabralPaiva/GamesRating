@@ -64,7 +64,7 @@ class AppDatabaseTest {
         // Teste funcional básico para garantir que a estrutura do DB (entities/converters) está correta
         val game = GameFavoriteEntity(
             id = 1,
-            orderId = null,
+            orderId = 0,
             name = "Test Game",
             genres = "Action",
             released = "2024",

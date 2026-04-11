@@ -27,7 +27,7 @@ class LocalDataSourceImplTest {
     fun `insertFavorite should add item to favorites`() = runTest {
         val game = GameFavoriteEntity(
             id = 1,
-            orderId = null,
+            orderId = 0,
             name = "Test Game",
             genres = "Action",
             released = "2024",
@@ -47,7 +47,7 @@ class LocalDataSourceImplTest {
     fun `deleteFavoriteById should remove item`() = runTest {
         val game = GameFavoriteEntity(
             id = 1,
-            orderId = null,
+            orderId = 0,
             name = "Test Game",
             genres = null,
             released = null,
@@ -67,7 +67,7 @@ class LocalDataSourceImplTest {
     fun `getAllFavorites should emit updated list`() = runTest {
         val game1 = GameFavoriteEntity(
             id = 1,
-            orderId = null,
+            orderId = 0,
             name = "Game 1",
             genres = null,
             released = null,
@@ -77,7 +77,7 @@ class LocalDataSourceImplTest {
 
         val game2 = GameFavoriteEntity(
             id = 2,
-            orderId = null,
+            orderId = 0,
             name = "Game 2",
             genres = null,
             released = null,

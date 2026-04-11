@@ -25,6 +25,16 @@ class FakeGameDao : GameDao {
         emitSorted()
     }
 
+    override suspend fun updateFavorites(favorites: List<GameFavoriteEntity>) {
+        favorites.forEach { updatedGame ->
+            val index = this.favorites.indexOfFirst { it.id == updatedGame.id }
+            if (index != -1) {
+                this.favorites[index] = updatedGame
+            }
+        }
+        emitSorted()
+    }
+
     override fun getAllFavorites(): Flow<List<GameFavoriteEntity>> {
         return flow
     }

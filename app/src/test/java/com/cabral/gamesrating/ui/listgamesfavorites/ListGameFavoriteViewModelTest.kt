@@ -2,6 +2,7 @@ package com.cabral.gamesrating.ui.listgamesfavorites
 
 import com.cabral.gamesrating.domain.usecase.DeleteFavoriteGameUseCase
 import com.cabral.gamesrating.domain.usecase.GetAllFavoritesUseCase
+import com.cabral.gamesrating.domain.usecase.UpdateFavoritesOrderUseCase
 import com.cabral.gamesrating.ui.model.GameUi
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,6 +27,7 @@ class ListGameFavoriteViewModelTest {
 
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase = mockk()
     private val deleteFavoriteGameUseCase: DeleteFavoriteGameUseCase = mockk()
+    private val updateFavoritesOrderUseCase: UpdateFavoritesOrderUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: ListGameFavoriteViewModel
 
@@ -46,7 +48,11 @@ class ListGameFavoriteViewModelTest {
         every { getAllFavoritesUseCase() } returns flowOf(mockGames)
 
         // When
-        viewModel = ListGameFavoriteViewModel(getAllFavoritesUseCase, deleteFavoriteGameUseCase)
+        viewModel = ListGameFavoriteViewModel(
+            getAllFavoritesUseCase,
+            deleteFavoriteGameUseCase,
+            updateFavoritesOrderUseCase
+        )
         advanceUntilIdle()
 
         // Then
@@ -64,7 +70,11 @@ class ListGameFavoriteViewModelTest {
         }
 
         // When
-        viewModel = ListGameFavoriteViewModel(getAllFavoritesUseCase, deleteFavoriteGameUseCase)
+        viewModel = ListGameFavoriteViewModel(
+            getAllFavoritesUseCase,
+            deleteFavoriteGameUseCase,
+            updateFavoritesOrderUseCase
+        )
         advanceUntilIdle()
 
         // Then
@@ -79,7 +89,11 @@ class ListGameFavoriteViewModelTest {
         val gameId = 123
         every { getAllFavoritesUseCase() } returns flowOf(emptyList())
         coEvery { deleteFavoriteGameUseCase(gameId) } returns Unit
-        viewModel = ListGameFavoriteViewModel(getAllFavoritesUseCase, deleteFavoriteGameUseCase)
+        viewModel = ListGameFavoriteViewModel(
+            getAllFavoritesUseCase,
+            deleteFavoriteGameUseCase,
+            updateFavoritesOrderUseCase
+        )
 
         // When
         viewModel.removeFavorite(gameId)
@@ -95,7 +109,11 @@ class ListGameFavoriteViewModelTest {
         every { getAllFavoritesUseCase() } returns flowOf(emptyList())
 
         // When
-        viewModel = ListGameFavoriteViewModel(getAllFavoritesUseCase, deleteFavoriteGameUseCase)
+        viewModel = ListGameFavoriteViewModel(
+            getAllFavoritesUseCase,
+            deleteFavoriteGameUseCase,
+            updateFavoritesOrderUseCase
+        )
 
         // Then
         assertEquals(FavoritesGamesUiState.Loading, viewModel.uiState.value)
