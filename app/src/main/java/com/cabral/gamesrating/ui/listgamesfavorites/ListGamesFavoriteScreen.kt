@@ -137,8 +137,7 @@ fun ListGameFavoriteLoaded(
                 key = { _, game -> game.id }
             ) { index, game ->
                 val isDragging = index == draggedItemIndex
-                
-                // Animações de feedback visual
+
                 val scale by animateFloatAsState(
                     targetValue = if (isDragging) 1.05f else 1f,
                     animationSpec = spring(stiffness = 300f),
@@ -153,19 +152,19 @@ fun ListGameFavoriteLoaded(
                 Card(
                     elevation = CardDefaults.cardElevation(defaultElevation = elevation),
                     modifier = Modifier
-                        .animateItem(
-                            placementSpec = spring(stiffness = 500f, dampingRatio = 0.8f)
-                        )
                         .zIndex(if (isDragging) 1f else 0f)
                         .graphicsLayer {
                             translationY = if (isDragging) draggingOffset else 0f
                             scaleX = scale
                             scaleY = scale
                         }
-                        .pointerInput(Unit) {
+                        .animateItem(
+                            placementSpec = spring(stiffness = 400f, dampingRatio = 0.8f)
+                        )
+                        .pointerInput(games) { // Importante: recarregar quando a lista mudar
                             detectDragGesturesAfterLongPress(
-                                onDragStart = { 
-                                    draggedItemIndex = index 
+                                onDragStart = {
+                                    draggedItemIndex = index
                                 },
                                 onDragEnd = {
                                     draggedItemIndex = -1
@@ -180,22 +179,30 @@ fun ListGameFavoriteLoaded(
                                     change.consume()
                                     draggingOffset += dragAmount.y
 
-                                    // Lógica para encontrar o item de destino baseado na posição central
-                                    val currentItemInfo = listState.layoutInfo.visibleItemsInfo
+                                    val layoutInfo = listState.layoutInfo
+                                    val currentItem = layoutInfo.visibleItemsInfo
                                         .find { it.index == draggedItemIndex } ?: return@detectDragGesturesAfterLongPress
-                                    
-                                    val dragPosition = currentItemInfo.offset + draggingOffset + (currentItemInfo.size / 2)
 
-                                    val targetItem = listState.layoutInfo.visibleItemsInfo
+                                    // Calcula o centro do item que está sendo arrastado
+                                    val currentCenter = currentItem.offset + (currentItem.size / 2) + draggingOffset
+
+                                    // Busca o item que está "embaixo" do centro do item arrastado
+                                    val targetItem = layoutInfo.visibleItemsInfo
                                         .find { item ->
-                                            dragPosition > item.offset && dragPosition < (item.offset + item.size) && item.index != draggedItemIndex
+                                            val itemStart = item.offset
+                                            val itemEnd = item.offset + item.size
+                                            currentCenter.toInt() in itemStart..itemEnd && item.index != draggedItemIndex
                                         }
 
                                     if (targetItem != null) {
-                                        onMove(draggedItemIndex, targetItem.index)
-                                        // Ajusta o offset para manter o item sob o dedo após a troca de index
-                                        draggingOffset += (currentItemInfo.offset - targetItem.offset)
-                                        draggedItemIndex = targetItem.index
+                                        val targetIndex = targetItem.index
+                                        // Notifica a mudança de posição no ViewModel
+                                        onMove(draggedItemIndex, targetIndex)
+
+                                        // COMPENSAÇÃO DO PULO:
+                                        // Ajustamos o draggingOffset subtraindo a distância que o item percorreu no layout
+                                        draggingOffset += (currentItem.offset - targetItem.offset)
+                                        draggedItemIndex = targetIndex
                                     }
                                 }
                             )
