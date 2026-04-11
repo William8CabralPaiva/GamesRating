@@ -3,8 +3,6 @@ package com.cabral.gamesrating.navigation
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,13 +37,13 @@ fun BottomNavigationBar(
             .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
             .systemBarsPadding()
             .fillMaxWidth()
-            .height(64.dp) // Altura fixa ajuda na centralização vertical dos ícones
+            .height(64.dp)
             .graphicsLayer {
                 shape = RoundedCornerShape(32.dp)
                 clip = true
                 shadowElevation = ELEVATION
             },
-        containerColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         windowInsets = WindowInsets(0, 0, 0, 0),
         tonalElevation = 0.dp
     ) {
@@ -78,14 +76,14 @@ fun BottomNavigationBar(
                         Text(
                             text = stringResource(titleId),
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.background
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = MaterialTheme.colorScheme.onPrimary,
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    unselectedIconColor = MaterialTheme.colorScheme.background
+                    indicatorColor = MaterialTheme.colorScheme.primary,
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
         }

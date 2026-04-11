@@ -8,5 +8,6 @@
     <string name="search">Search</string>
     <string name="games">Games</string>
     <string name="favorite">Favorites</string>
+    <string name="settings">Settings</string>
     <string name="favorite_button">Botão para favoritar</string>
 </resources>
