@@ -7,6 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -30,14 +33,16 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            GamesRatingTheme {
+            var isDarkTheme by remember { mutableStateOf(false) }
+            GamesRatingTheme(isDarkTheme) {
+
 
                 val navController = rememberNavController()
 
                 Scaffold(
                     bottomBar = {
                         val bottomNavLoggedRoutes =
-                            listOf(Routes.Game, Routes.Favorites)
+                            listOf(Routes.Game, Routes.Favorites, Routes.Settings)
                         val currentBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentRoute = currentBackStackEntry?.destination?.route
 
@@ -53,9 +58,10 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         modifier = Modifier.padding(
                             top = innerPadding.calculateTopPadding(),
-                            bottom = 72.dp// if (currentRoute in bottomNavLoggedRoutes.map { it.route }) 112.dp else 0.dp
-                        )
-
+                            bottom = 72.dp
+                        ),
+                        isDarkTheme = isDarkTheme,
+                        onToggleTheme = { isDarkTheme = it }
                     )
                 }
             }
