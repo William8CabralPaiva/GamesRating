@@ -83,4 +83,10 @@ class GamesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateFavoritesOrder(games: List<GameUi>) {
+        withContext(dispatcher) {
+            localDataSource.updateFavoritesOrder(games.map { it.toGameFavoriteEntity() })
+        }
+    }
+
 }

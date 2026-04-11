@@ -21,5 +21,8 @@ class LocalDataSourceImpl @Inject constructor(
     override fun getAllFavorites(): Flow<List<GameFavoriteEntity>> {
         return gameDao.getAllFavorites()
     }
-}
 
+    override suspend fun updateFavoritesOrder(favorites: List<GameFavoriteEntity>) {
+        gameDao.updateFavoritesOrder(favorites)
+    }
+}

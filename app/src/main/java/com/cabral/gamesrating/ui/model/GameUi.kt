@@ -11,6 +11,7 @@ data class GameUi(
     val rating: Double,
     val genres: String?,
     var isFavorite: Boolean,
+    val orderId: Int? = null,
 )
 
 fun Game.toGameUi(isFavorite: Boolean): GameUi {
@@ -18,4 +19,3 @@ fun Game.toGameUi(isFavorite: Boolean): GameUi {
         id, name, released, background_image, rating, genres.toGenreString(), isFavorite
     )
 }
-

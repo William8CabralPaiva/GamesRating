@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.cabral.gamesrating.data.local.GameDao
 import com.cabral.gamesrating.data.local.GameFavoriteEntity
 
-@Database(entities = [GameFavoriteEntity::class], version = 1, exportSchema = false)
+@Database(entities = [GameFavoriteEntity::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao

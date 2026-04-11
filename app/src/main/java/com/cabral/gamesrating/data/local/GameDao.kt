@@ -5,6 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,4 +20,12 @@ interface GameDao {
 
     @Query("DELETE FROM game_favorites WHERE id = :gameId")
     suspend fun deleteFavoriteById(gameId: Int)
+
+    @Update
+    suspend fun updateFavorites(favorites: List<GameFavoriteEntity>)
+
+    @Transaction
+    suspend fun updateFavoritesOrder(favorites: List<GameFavoriteEntity>) {
+        updateFavorites(favorites)
+    }
 }

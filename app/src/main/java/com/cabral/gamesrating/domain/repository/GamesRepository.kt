@@ -15,4 +15,5 @@ interface GamesRepository {
     fun getAllFavorites(): Flow<List<GameUi>>
     suspend fun saveFavoriteGame(game: GameUi): Unit
     suspend fun deleteFavoriteGame(id: Int): Unit
+    suspend fun updateFavoritesOrder(games: List<GameUi>)
 }
