@@ -184,10 +184,16 @@ fun ListGamesError(modifier: Modifier = Modifier) {
 
 @Composable
 fun ListGamesEmpty(modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(R.string.empty_list),
-        modifier = modifier.padding(16.dp)
-    )
+    Box(
+        modifier = modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.empty_list),
+            modifier = modifier.padding(16.dp)
+        )
+    }
 }
 
 @Preview(showBackground = true, name = "Success State")

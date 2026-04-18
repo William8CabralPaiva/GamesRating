@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GamesRating</string>
     <string name="empty_list">Lista Vazia</string>
+    <string name="add_favorite_itens">Nenhum item adicionado aos favoritos</string>
     <string name="error_list">Erro ao buscar os itens</string>
     <string name="image_game">Imagem do jogo %s</string>
     <string name="see_less">Ver mais</string>

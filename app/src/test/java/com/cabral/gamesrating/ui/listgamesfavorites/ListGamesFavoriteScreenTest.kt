@@ -55,7 +55,7 @@ class ListGamesFavoriteScreenTest {
     fun should_show_empty_state_when_list_is_empty() {
         // Given
         val uiState = FavoritesGamesUiState.Success(emptyList())
-        val emptyText = context.getString(R.string.empty_list)
+        val emptyText = context.getString(R.string.add_favorite_itens)
 
         // When
         composeTestRule.setContent {

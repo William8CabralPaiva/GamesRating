@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">GamesRating</string>
     <string name="empty_list">Empty list</string>
+    <string name="add_favorite_itens">No items added to favorites</string>
     <string name="error_list">Error fetching items</string>
     <string name="image_game">Game image %s</string>
     <string name="see_less">See more</string>
