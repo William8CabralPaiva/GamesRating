@@ -55,7 +55,8 @@ class ListGameViewModelTest {
         every { getAllFavoritesUseCase() } returns flowOf(favoriteGames)
 
         // When
-        viewModel = ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
+        viewModel =
+            ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
         advanceUntilIdle()
 
         // Then
@@ -65,7 +66,8 @@ class ListGameViewModelTest {
     @Test
     fun `updateSearch should update searchQuery state`() = runTest {
         // Given
-        viewModel = ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
+        viewModel =
+            ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
         val query = "Batman"
 
         // When
@@ -81,7 +83,8 @@ class ListGameViewModelTest {
         val query = "Zelda"
         val pagingData = PagingData.empty<Game>()
         every { getAllGamesUseCase(query) } returns flowOf(pagingData)
-        viewModel = ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
+        viewModel =
+            ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
 
         // When
         viewModel.updateSearch(query)
@@ -100,7 +103,8 @@ class ListGameViewModelTest {
         val gameUi = mockk<GameUi>()
         val isFavorite = true
         coEvery { toggleFavoriteGameUseCase(isFavorite, gameUi) } returns Unit
-        viewModel = ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
+        viewModel =
+            ListGameViewModel(getAllGamesUseCase, getAllFavoritesUseCase, toggleFavoriteGameUseCase)
 
         // When
         viewModel.toggleFavorite(isFavorite, gameUi)

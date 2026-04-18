@@ -1,7 +1,14 @@
 package com.cabral.meusjogosfavoritos.ui.gamedetail
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import com.cabral.meusjogosfavoritos.R
 import com.cabral.meusjogosfavoritos.ui.model.GameDetailScreenshots
 import org.junit.Rule
 import org.junit.Test

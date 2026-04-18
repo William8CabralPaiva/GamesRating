@@ -1,11 +1,16 @@
 package com.cabral.meusjogosfavoritos.ui.listgames
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.cabral.meusjogosfavoritos.R
 import com.cabral.meusjogosfavoritos.ui.model.GameUi
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
@@ -31,8 +36,7 @@ class ListGamesScreenTest {
         // Forçamos o estado de NotLoading para o campo de busca habilitar
         val gamesFlow = flowOf(
             PagingData.from(
-                fakeGames,
-                sourceLoadStates = LoadStates(
+                fakeGames, sourceLoadStates = LoadStates(
                     refresh = LoadState.NotLoading(endOfPaginationReached = false),
                     prepend = LoadState.NotLoading(endOfPaginationReached = true),
                     append = LoadState.NotLoading(endOfPaginationReached = true)
@@ -44,10 +48,7 @@ class ListGamesScreenTest {
         composeTestRule.setContent {
             val lazyItems = gamesFlow.collectAsLazyPagingItems()
             ListGamesContent(
-                games = lazyItems,
-                searchText = "",
-                onSearchChange = {}
-            )
+                games = lazyItems, searchText = "", onSearchChange = {})
         }
 
         // Then
@@ -74,17 +75,13 @@ class ListGamesScreenTest {
         composeTestRule.setContent {
             val lazyItems = gamesFlow.collectAsLazyPagingItems()
             ListGamesContent(
-                games = lazyItems,
-                searchText = "",
-                onSearchChange = { capturedQuery = it }
-            )
+                games = lazyItems, searchText = "", onSearchChange = { capturedQuery = it })
         }
 
         // When
         // Se o campo ainda falhar, usamos waitUnusedToIdle
         composeTestRule.waitForIdle()
-        composeTestRule.onNodeWithTag("search_field")
-            .assertIsEnabled() // Verifica se habilitou
+        composeTestRule.onNodeWithTag("search_field").assertIsEnabled() // Verifica se habilitou
             .performTextInput(query)
 
         // Then
@@ -96,8 +93,7 @@ class ListGamesScreenTest {
         // Given
         val gamesFlow = flowOf(
             PagingData.from(
-                emptyList<GameUi>(),
-                sourceLoadStates = LoadStates(
+                emptyList<GameUi>(), sourceLoadStates = LoadStates(
                     refresh = LoadState.NotLoading(true),
                     prepend = LoadState.NotLoading(true),
                     append = LoadState.NotLoading(true)
@@ -109,10 +105,7 @@ class ListGamesScreenTest {
         composeTestRule.setContent {
             val lazyItems = gamesFlow.collectAsLazyPagingItems()
             ListGamesContent(
-                games = lazyItems,
-                searchText = "",
-                onSearchChange = {}
-            )
+                games = lazyItems, searchText = "", onSearchChange = {})
         }
 
         // Then
