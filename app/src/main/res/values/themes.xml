@@ -4,7 +4,10 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <!-- Usando o novo ícone com inset para evitar o corte -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon</item>
+        <!-- Define a cor de fundo do círculo do ícone -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/ic_launcher_background</item>
         <item name="postSplashScreenTheme">@style/Theme.GamesRating</item>
     </style>
 </resources>
