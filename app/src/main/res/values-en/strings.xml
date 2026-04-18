@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GamesRating</string>
+    <string name="app_name">My Favorite Games</string>
     <string name="empty_list">Empty list</string>
     <string name="add_favorite_itens">No items added to favorites</string>
     <string name="error_list">Error fetching items</string>
