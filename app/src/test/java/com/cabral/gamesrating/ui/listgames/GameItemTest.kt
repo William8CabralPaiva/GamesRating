@@ -14,8 +14,10 @@ import com.cabral.gamesrating.ui.model.GameUi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
+@Config(sdk = [33])
 class GameItemTest {
 
     @get:Rule
@@ -28,7 +30,7 @@ class GameItemTest {
     private fun buildGameUi(
         id: Int = 1,
         name: String = "Shadow of the Colossus",
-        genres: String = "Ação, Aventura",
+        genres: List<Int> = listOf(R.string.genre_action, R.string.genre_adventure),
         rating: Double = 4.5,
         isFavorite: Boolean = false,
     ) = GameUi(
@@ -37,7 +39,6 @@ class GameItemTest {
         released = "",
         backgroundImage = "https://image.url",
         rating = rating,
-
         genres = genres,
         isFavorite = isFavorite,
     )
@@ -47,7 +48,8 @@ class GameItemTest {
     @Test
     fun `given valid gameUi, when rendered, then name and genres are displayed`() {
         // Given
-        val game = buildGameUi(name = "God of War", genres = "Ação")
+        val game = buildGameUi(name = "God of War", genres = listOf(R.string.genre_action))
+        val genreText = context.getString(R.string.genre_action)
 
         // When
         composeTestRule.setContent {
@@ -56,7 +58,7 @@ class GameItemTest {
 
         // Then
         composeTestRule.onNodeWithText("God of War").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Ação").assertIsDisplayed()
+        composeTestRule.onNodeWithText(genreText).assertIsDisplayed()
     }
 
     @Test

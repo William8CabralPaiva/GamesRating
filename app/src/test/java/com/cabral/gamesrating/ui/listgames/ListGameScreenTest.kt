@@ -6,14 +6,17 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.cabral.gamesrating.R
 import com.cabral.gamesrating.ui.model.GameUi
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33])
 class ListGamesScreenTest {
 
     @get:Rule
@@ -24,7 +27,7 @@ class ListGamesScreenTest {
         // Given
         val gameName = "The Witcher 3"
         val fakeGames = listOf(
-            GameUi(1, name = gameName, "2015-05-19", "", 4.9, "Ação", false)
+            GameUi(1, name = gameName, "2015-05-19", "", 4.9, listOf(R.string.genre_action), false)
         )
         // Forçamos o estado de NotLoading para o campo de busca habilitar
         val gamesFlow = flowOf(

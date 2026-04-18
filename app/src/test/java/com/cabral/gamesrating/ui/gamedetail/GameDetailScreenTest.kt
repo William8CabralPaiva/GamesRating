@@ -2,13 +2,16 @@ package com.cabral.gamesrating.ui.gamedetail
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.cabral.gamesrating.R
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33])
 class GameDetailScreenTest {
 
     @get:Rule
@@ -54,7 +57,7 @@ class GameDetailScreenTest {
             name = "The Witcher 3",
             description = "RPG de ação",
             rating = 4.8,
-            genres = "RPG",
+            genres = listOf(R.string.genre_rpg),
             platforms = "PC",
             released = "2015-05-19",
             backgroundImage = "url_principal",
@@ -82,7 +85,7 @@ class GameDetailScreenTest {
             name = "God of War",
             description = "Ação",
             rating = 5.0,
-            genres = "Ação",
+            genres = listOf(R.string.genre_action),
             platforms = "PS5",
             released = "2022-11-09",
             backgroundImage = "url_principal",
@@ -111,7 +114,7 @@ class GameDetailScreenTest {
             name = "Elden Ring",
             description = "Soulslike",
             rating = 4.9,
-            genres = "RPG",
+            genres = listOf(R.string.genre_rpg),
             platforms = "PC",
             released = "2022-02-25",
             backgroundImage = mainImage,
@@ -128,9 +131,6 @@ class GameDetailScreenTest {
         composeTestRule.onAllNodesWithTag("screenshot_item")[0].performClick()
 
         // Then
-        // O Crossfade/AsyncImage principal deve agora estar com a nova URL
-        // Nota: Testar a troca exata de URL no AsyncImage via tag é complexo sem Custom Assertions,
-        // mas o performClick garante que a lógica do Compose foi disparada.
         composeTestRule.onNodeWithTag("selected_image").assertExists()
     }
 
@@ -142,7 +142,7 @@ class GameDetailScreenTest {
             name = "Cyberpunk 2077",
             description = "",
             rating = 4.0,
-            genres = "",
+            genres = emptyList(),
             platforms = "",
             released = "",
             backgroundImage = "url",

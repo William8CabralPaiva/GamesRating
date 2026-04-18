@@ -3,6 +3,7 @@ package com.cabral.gamesrating.di
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.cabral.gamesrating.R
 import com.cabral.gamesrating.data.local.GameDao
 import com.cabral.gamesrating.data.local.GameFavoriteEntity
 import org.junit.After
@@ -49,6 +50,7 @@ class AppDatabaseTest {
 
     @Test
     fun should_Verify_Database_Is_Open_When_Accessed() {
+        // Given
         // Act
         // Forçamos o Room a abrir a conexão de fato através de uma operação simples
         db.openHelper.writableDatabase
@@ -60,13 +62,13 @@ class AppDatabaseTest {
 
     @Test
     fun should_Successfully_Execute_Dao_Operation() {
-        // Act
+        // Given
         // Teste funcional básico para garantir que a estrutura do DB (entities/converters) está correta
         val game = GameFavoriteEntity(
             id = 1,
             orderId = 0,
             name = "Test Game",
-            genres = "Action",
+            genres = listOf(R.string.genre_action),
             released = "2024",
             rating = 4.5,
             backgroundImage = "url"
@@ -74,7 +76,6 @@ class AppDatabaseTest {
 
         // When
         // Como o Room é lazy, ao executar uma operação, ele abre o banco automaticamente
-        // (Aqui você precisará rodar dentro de um runBlocking se o seu DAO for suspend)
         kotlinx.coroutines.runBlocking {
             dao.insertFavorite(game)
         }

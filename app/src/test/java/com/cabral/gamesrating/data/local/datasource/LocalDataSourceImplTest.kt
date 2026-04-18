@@ -1,5 +1,6 @@
 package com.cabral.gamesrating.data.local.datasource
 
+import com.cabral.gamesrating.R
 import com.cabral.gamesrating.data.local.FakeGameDao
 import com.cabral.gamesrating.data.local.GameFavoriteEntity
 import junit.framework.TestCase.assertEquals
@@ -25,26 +26,29 @@ class LocalDataSourceImplTest {
 
     @Test
     fun `insertFavorite should add item to favorites`() = runTest {
+        // Given
         val game = GameFavoriteEntity(
             id = 1,
             orderId = 0,
             name = "Test Game",
-            genres = "Action",
+            genres = listOf(R.string.genre_action),
             released = "2024",
             rating = 4.5,
             backgroundImage = "url"
         )
 
+        // When
         localDataSource.insertFavorite(game)
 
+        // Then
         val result = localDataSource.getAllFavorites().first()
-
         assertEquals(1, result.size)
         assertEquals("Test Game", result.first().name)
     }
 
     @Test
     fun `deleteFavoriteById should remove item`() = runTest {
+        // Given
         val game = GameFavoriteEntity(
             id = 1,
             orderId = 0,
@@ -55,16 +59,18 @@ class LocalDataSourceImplTest {
             backgroundImage = null
         )
 
+        // When
         localDataSource.insertFavorite(game)
         localDataSource.deleteFavoriteById(1)
 
+        // Then
         val result = localDataSource.getAllFavorites().first()
-
         assertTrue(result.isEmpty())
     }
 
     @Test
     fun `getAllFavorites should emit updated list`() = runTest {
+        // Given
         val game1 = GameFavoriteEntity(
             id = 1,
             orderId = 0,
@@ -85,11 +91,12 @@ class LocalDataSourceImplTest {
             backgroundImage = null
         )
 
+        // When
         localDataSource.insertFavorite(game1)
         localDataSource.insertFavorite(game2)
 
+        // Then
         val result = localDataSource.getAllFavorites().first()
-
         assertEquals(2, result.size)
     }
 }

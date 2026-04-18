@@ -1,5 +1,6 @@
 package com.cabral.gamesrating.domain.usecase
 
+import com.cabral.gamesrating.R
 import com.cabral.gamesrating.domain.repository.GamesRepository
 import com.cabral.gamesrating.ui.model.GameUi
 import io.mockk.coEvery
@@ -23,8 +24,8 @@ class UpdateFavoritesOrderUseCaseTest {
     fun `invoke should call repository updateFavoritesOrder`() = runTest {
         // Given
         val games = listOf(
-            GameUi(1, "Game 1", "2023-01-01", null, 4.5, "Action", true, 1),
-            GameUi(2, "Game 2", "2023-02-01", null, 4.0, "RPG", true, 2)
+            GameUi(1, "Game 1", "2023-01-01", null, 4.5, listOf(R.string.genre_action), true, 1),
+            GameUi(2, "Game 2", "2023-02-01", null, 4.0, listOf(R.string.genre_rpg), true, 2)
         )
         coEvery { repository.updateFavoritesOrder(games) } returns Unit
 
