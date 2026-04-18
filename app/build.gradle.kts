@@ -124,6 +124,8 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.gson)
 
+    implementation("androidx.appcompat:appcompat:1.7.0")
+
     // --- Unit Tests (test) ---
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

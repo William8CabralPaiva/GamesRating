@@ -34,7 +34,9 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = {}
+                onToggleTheme = {},
+                currentLanguage = "pt",
+                onLanguageChange = {}
             )
         }
 
@@ -51,16 +53,14 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = {}
+                onToggleTheme = {},
+                currentLanguage = "pt",
+                onLanguageChange = {}
             )
         }
 
         // Then
-        // We find the switch by its parent or adjacent text,
-        // but since it's a simple screen, checking the role or state works
         composeTestRule.onNodeWithText(getString(R.string.dark_theme)).assertIsDisplayed()
-        // In Compose, Switch state is often verified via semantics
-        // Note: For complex screens use hasTestTag()
     }
 
     @Test
@@ -72,14 +72,14 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = {}
+                onToggleTheme = {},
+                currentLanguage = "pt",
+                onLanguageChange = {}
             )
         }
 
         // Then
-        // You can use a toggleable matcher to find the Switch
-        // Since the Switch is part of the Row, we can find it by its state
-        // or toggle it.
+        composeTestRule.onNodeWithText(getString(R.string.dark_theme)).assertIsDisplayed()
     }
 
     @Test
@@ -93,13 +93,13 @@ class SettingsScreenTest {
                 isDarkTheme = isDarkTheme,
                 onToggleTheme = { newValue ->
                     capturedValue = newValue
-                }
+                },
+                currentLanguage = "pt",
+                onLanguageChange = {}
             )
         }
 
         // When
-        // Clicking the text "Dark Theme" usually doesn't toggle unless wrapped in a label
-        // We click the switch itself (found by the text next to it in the same Row)
         composeTestRule.onNodeWithText(getString(R.string.dark_theme)).performClick()
 
         // Then

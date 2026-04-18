@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GamesRating</string>
+    <string name="empty_list">Empty list</string>
+    <string name="error_list">Error fetching items</string>
+    <string name="image_game">Game image %s</string>
+    <string name="see_less">See more</string>
+    <string name="see_more">See less</string>
+    <string name="search">Search</string>
+    <string name="games">Games</string>
+    <string name="favorite">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="favorite_button">Favorite button</string>
+    <string name="dark_theme_enable">Enable dark theme</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="portuguese">Português</string>
+</resources>

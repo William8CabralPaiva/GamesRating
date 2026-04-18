@@ -1,9 +1,10 @@
 package com.cabral.gamesrating
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
@@ -12,17 +13,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cabral.gamesrating.navigation.BottomNavigationBar
 import com.cabral.gamesrating.navigation.NavGraph
 import com.cabral.gamesrating.navigation.Routes
-//import androidx.activity.viewModels
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     //com o hilt é a instancia viewModels
     //private val sharedLoggedViewModel: GamesSharedViewModel by viewModels()
@@ -31,12 +32,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
         setContent {
             var isDarkTheme by remember { mutableStateOf(false) }
+            
+            // Obtém o idioma atual do sistema/app
+            val currentLanguage = remember {
+                AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "pt"
+            }
+
             GamesRatingTheme(isDarkTheme) {
-
-
                 val navController = rememberNavController()
 
                 Scaffold(
@@ -61,7 +65,12 @@ class MainActivity : ComponentActivity() {
                             bottom = 72.dp
                         ),
                         isDarkTheme = isDarkTheme,
-                        onToggleTheme = { isDarkTheme = it }
+                        onToggleTheme = { isDarkTheme = it },
+                        currentLanguage = currentLanguage,
+                        onLanguageChange = { languageCode ->
+                            val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(languageCode)
+                            AppCompatDelegate.setApplicationLocales(appLocale)
+                        }
                     )
                 }
             }

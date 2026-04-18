@@ -17,7 +17,9 @@ fun NavGraph(
     navController: NavHostController,
     modifier: Modifier,
     isDarkTheme: Boolean,
-    onToggleTheme: (Boolean) -> Unit
+    onToggleTheme: (Boolean) -> Unit,
+    currentLanguage: String,
+    onLanguageChange: (String) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -39,7 +41,9 @@ fun NavGraph(
         composable(Routes.Settings.route) {
             SettingsScreen(
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = onToggleTheme
+                onToggleTheme = onToggleTheme,
+                currentLanguage = currentLanguage,
+                onLanguageChange = onLanguageChange
             )
         }
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -22,14 +23,16 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cabral.gamesrating.R
+import com.cabral.gamesrating.ui.components.LanguageSelector
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
 
 @Composable
 fun SettingsScreen(
     isDarkTheme: Boolean,
     onToggleTheme: (Boolean) -> Unit,
+    currentLanguage: String,
+    onLanguageChange: (String) -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +87,7 @@ fun SettingsScreen(
 
                 Switch(
                     checked = isDarkTheme,
-                    onCheckedChange = null, // Handled by the Row's toggleable modifier
+                    onCheckedChange = null,
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
                         checkedTrackColor = MaterialTheme.colorScheme.primary,
@@ -93,6 +96,18 @@ fun SettingsScreen(
                     )
                 )
             }
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
+            )
+
+            LanguageSelector(
+                currentLanguage = currentLanguage,
+                onLanguageChange = onLanguageChange,
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }
@@ -103,7 +118,9 @@ fun SettingsScreenLightPreview() {
     GamesRatingTheme(darkTheme = false) {
         SettingsScreen(
             isDarkTheme = false,
-            onToggleTheme = {}
+            onToggleTheme = {},
+            currentLanguage = "pt",
+            onLanguageChange = {}
         )
     }
 }
@@ -114,7 +131,9 @@ fun SettingsScreenDarkPreview() {
     GamesRatingTheme(darkTheme = true) {
         SettingsScreen(
             isDarkTheme = true,
-            onToggleTheme = {}
+            onToggleTheme = {},
+            currentLanguage = "en",
+            onLanguageChange = {}
         )
     }
 }
