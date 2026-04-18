@@ -1,7 +1,7 @@
 package com.cabral.gamesrating.ui.model
 
 import com.cabral.gamesrating.data.model.Game
-import com.cabral.gamesrating.data.model.toGenreString
+import com.cabral.gamesrating.data.model.toGenreResList
 
 data class GameUi(
     val id: Int,
@@ -9,13 +9,13 @@ data class GameUi(
     val released: String?,
     val backgroundImage: String?,
     val rating: Double,
-    val genres: String?,
+    val genres: List<Int>?,
     var isFavorite: Boolean,
     val orderId: Int? = null,
 )
 
 fun Game.toGameUi(isFavorite: Boolean): GameUi {
     return GameUi(
-        id, name, released, background_image, rating, genres.toGenreString(), isFavorite
+        id, name, released, background_image, rating, genres.toGenreResList(), isFavorite
     )
 }

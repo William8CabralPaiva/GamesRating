@@ -1,5 +1,6 @@
 package com.cabral.gamesrating.domain.usecase
 
+import com.cabral.gamesrating.data.model.GenreTypes
 import com.cabral.gamesrating.domain.repository.GamesRepository
 import com.cabral.gamesrating.ui.model.GameDetailScreenshots
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +35,7 @@ class GetGameDetailByIdUseCase @Inject constructor(
                 name = game.name,
                 description = game.description,
                 platforms = game.platforms?.joinToString(", ") { it.platform.name },
-                genres = game.genres?.joinToString(", ") { it.name },
+                genres = game.genres?.map { GenreTypes.fromSlug(it.slug).nameRes },
                 released = game.released,
                 rating = game.rating,
                 backgroundImage = game.background_image,

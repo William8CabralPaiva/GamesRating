@@ -242,8 +242,8 @@ fun ListGameFavoriteEmpty(modifier: Modifier = Modifier) {
 @Composable
 fun ListGameFavoriteSuccessPreview() {
     val fakeGames = listOf(
-        GameUi(1, "The Witcher 3", "2015-05-19", "", 4.9, "Ação, aventura", false),
-        GameUi(2, "Elden Ring", "2022-02-25", "", 4.9, "Ação, aventura", false),
+        GameUi(1, "The Witcher 3", "2015-05-19", "", 4.9, listOf(R.string.genre_action, R.string.genre_rpg), false),
+        GameUi(2, "Elden Ring", "2022-02-25", "", 4.9, listOf(R.string.genre_action, R.string.genre_rpg), false),
     )
 
     GamesRatingTheme {

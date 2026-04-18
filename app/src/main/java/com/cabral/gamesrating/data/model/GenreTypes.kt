@@ -1,30 +1,31 @@
 package com.cabral.gamesrating.data.model
 
+import com.cabral.gamesrating.R
+
 enum class GenreTypes(
     val slug: String,
-    val englishName: String,
-    val portugueseName: String
+    val nameRes: Int
 ) {
-    ACTION("action", "Action", "Ação"),
-    INDIE("indie", "Indie", "Indie"),
-    ADVENTURE("adventure", "Adventure", "Aventura"),
-    RPG("role-playing-games-rpg", "RPG", "RPG"),
-    STRATEGY("strategy", "Strategy", "Estratégia"),
-    SHOOTER("shooter", "Shooter", "Tiro"),
-    CASUAL("casual", "Casual", "Casual"),
-    SIMULATION("simulation", "Simulation", "Simulação"),
-    PUZZLE("puzzle", "Puzzle", "Quebra-cabeça"),
-    ARCADE("arcade", "Arcade", "Arcade"),
-    PLATFORMER("platformer", "Platformer", "Plataforma"),
-    MASSIVELY_MULTIPLAYER("massively-multiplayer", "Massively Multiplayer", "Multiplayer Massivo"),
-    RACING("racing", "Racing", "Corrida"),
-    SPORTS("sports", "Sports", "Esportes"),
-    FIGHTING("fighting", "Fighting", "Luta"),
-    FAMILY("family", "Family", "Família"),
-    BOARD_GAMES("board-games", "Board Games", "Jogos de Tabuleiro"),
-    CARD("card", "Card", "Cartas"),
-    EDUCATIONAL("educational", "Educational", "Educacional"),
-    UNKNOWN("unknown", "Unknown", "Desconhecido");
+    ACTION("action", R.string.genre_action),
+    INDIE("indie", R.string.genre_indie),
+    ADVENTURE("adventure", R.string.genre_adventure),
+    RPG("role-playing-games-rpg", R.string.genre_rpg),
+    STRATEGY("strategy", R.string.genre_strategy),
+    SHOOTER("shooter", R.string.genre_shooter),
+    CASUAL("casual", R.string.genre_casual),
+    SIMULATION("simulation", R.string.genre_simulation),
+    PUZZLE("puzzle", R.string.genre_puzzle),
+    ARCADE("arcade", R.string.genre_arcade),
+    PLATFORMER("platformer", R.string.genre_platformer),
+    MASSIVELY_MULTIPLAYER("massively-multiplayer", R.string.genre_multiplayer),
+    RACING("racing", R.string.genre_racing),
+    SPORTS("sports", R.string.genre_sports),
+    FIGHTING("fighting", R.string.genre_fighting),
+    FAMILY("family", R.string.genre_family),
+    BOARD_GAMES("board-games", R.string.genre_board_games),
+    CARD("card", R.string.genre_card),
+    EDUCATIONAL("educational", R.string.genre_educational),
+    UNKNOWN("unknown", R.string.genre_unknown);
 
     companion object {
         fun fromSlug(slug: String?): GenreTypes {

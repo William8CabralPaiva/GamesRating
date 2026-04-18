@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
@@ -48,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.cabral.gamesrating.R
 import com.cabral.gamesrating.ui.components.ExpandableHtmlText
 import com.cabral.gamesrating.ui.components.RatingLayout
 import com.cabral.gamesrating.ui.components.RatingStar
@@ -159,6 +161,9 @@ fun GameDetailSuccess(
 ) {
     var selectedImage by remember { mutableStateOf(game.backgroundImage) }
 
+    // Resolve os gêneros para strings usando o contexto do Compose
+    val genresString = game.genres?.map { stringResource(id = it) }?.joinToString(", ") ?: ""
+
     Column(
         modifier
             .fillMaxSize()
@@ -218,7 +223,7 @@ fun GameDetailSuccess(
                     .testTag("rating_surface")
             ) {
                 RatingStar(
-                    rating = game.rating,
+                    rating = game.rating ?: 0.0,
                     isLoading = false,
                     textColor = Color.White,
                     layout = RatingLayout.Horizontal,
@@ -263,9 +268,7 @@ fun GameDetailSuccess(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            game.genres?.let {
-                Text(text = it, modifier = Modifier.testTag("game_genres"))
-            }
+            Text(text = genresString, modifier = Modifier.testTag("game_genres"))
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -323,7 +326,7 @@ fun GameDetailContentSuccessPreview() {
         name = "The Witcher 3",
         description = "<p>Um RPG incrível com mundo aberto.</p>",
         rating = 4.8,
-        genres = "Ação, RPG",
+        genres = listOf(R.string.genre_action, R.string.genre_rpg),
         platforms = "PC, PS4",
         released = "2015-05-19",
         backgroundImage = "",

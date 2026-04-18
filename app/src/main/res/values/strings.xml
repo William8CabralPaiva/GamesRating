@@ -6,7 +6,7 @@
     <string name="see_less">Ver mais</string>
     <string name="see_more">Ver menos</string>
     <string name="search">Buscar</string>
-    <string name="games">Jogos</string>
+    <string name="games">Games</string>
     <string name="favorite">Favorites</string>
     <string name="settings">Configurações</string>
     <string name="favorite_button">Botão para favoritar</string>
@@ -15,4 +15,26 @@
     <string name="language">Idioma</string>
     <string name="english">English</string>
     <string name="portuguese">Português</string>
+
+    <!-- Gêneros -->
+    <string name="genre_action">Ação</string>
+    <string name="genre_indie">Indie</string>
+    <string name="genre_adventure">Aventura</string>
+    <string name="genre_rpg">RPG</string>
+    <string name="genre_strategy">Estratégia</string>
+    <string name="genre_shooter">Tiro</string>
+    <string name="genre_casual">Casual</string>
+    <string name="genre_simulation">Simulação</string>
+    <string name="genre_puzzle">Quebra-cabeça</string>
+    <string name="genre_arcade">Arcade</string>
+    <string name="genre_platformer">Plataforma</string>
+    <string name="genre_multiplayer">Multiplayer Massivo</string>
+    <string name="genre_racing">Corrida</string>
+    <string name="genre_sports">Esportes</string>
+    <string name="genre_fighting">Luta</string>
+    <string name="genre_family">Família</string>
+    <string name="genre_board_games">Jogos de Tabuleiro</string>
+    <string name="genre_card">Cartas</string>
+    <string name="genre_educational">Educacional</string>
+    <string name="genre_unknown">Desconhecido</string>
 </resources>

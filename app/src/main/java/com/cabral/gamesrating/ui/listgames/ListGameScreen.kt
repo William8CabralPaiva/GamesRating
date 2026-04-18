@@ -49,7 +49,7 @@ fun ListGamesScreen(
         modifier = modifier,
         onClick = onClick,
         onClickFavorite = { gameUi ->
-            val game = gameUi ?: GameUi(0, "", "", "", 0.0, "", false)
+            val game = gameUi ?: GameUi(0, "", "", "", 0.0, emptyList(), false)
             listGameViewModel.toggleFavorite(game.isFavorite, game)
         },
         searchText = searchText,
@@ -194,8 +194,8 @@ fun ListGamesEmpty(modifier: Modifier = Modifier) {
 @Composable
 fun ListGamesSuccessPreview() {
     val fakeGames = listOf(
-        GameUi(1, name = "The Witcher 3", "2015-05-19", "", 4.9, "Ação, aventura", false),
-        GameUi(2, name = "Elden Ring", "2022-02-25", "", 4.9, "Ação, aventura", false),
+        GameUi(1, name = "The Witcher 3", "2015-05-19", "", 4.9, listOf(R.string.genre_action, R.string.genre_rpg), false),
+        GameUi(2, name = "Elden Ring", "2022-02-25", "", 4.9, listOf(R.string.genre_action, R.string.genre_rpg), false),
     )
 
     val pagingData = PagingData.from(fakeGames)

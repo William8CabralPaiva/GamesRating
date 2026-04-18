@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -47,7 +46,6 @@ import com.cabral.gamesrating.ui.theme.GradientDarkEnd
 import com.cabral.gamesrating.ui.theme.GradientDarkStart
 import com.cabral.gamesrating.ui.theme.GradientLightEnd
 import com.cabral.gamesrating.ui.theme.GradientLightStart
-import com.cabral.gamesrating.ui.theme.OnSurfaceDark
 import com.cabral.gamesrating.ui.theme.SurfaceLight
 import com.cabral.gamesrating.ui.theme.Yellow
 import com.cabral.gamesrating.utils.shimmer
@@ -72,6 +70,9 @@ fun GameItem(
             listOf(GradientLightStart, GradientLightEnd)
         }
     )
+
+    // Resolve os gêneros para strings usando o contexto do Compose
+    val genresString = gameUi?.genres?.map { stringResource(id = it) }?.joinToString(", ") ?: ""
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -146,7 +147,7 @@ fun GameItem(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = gameUi?.genres ?: "",
+                    text = genresString,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     overflow = TextOverflow.Ellipsis,
@@ -176,7 +177,7 @@ fun GameItemPreview() {
         released = "",
         backgroundImage = "",
         rating = 5.0,
-        genres = "Ação, Aventura",
+        genres = listOf(R.string.genre_action, R.string.genre_adventure),
         false
     )
     GameItem(gameUi, false)

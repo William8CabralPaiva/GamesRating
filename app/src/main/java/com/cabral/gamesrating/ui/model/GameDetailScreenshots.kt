@@ -5,7 +5,7 @@ data class GameDetailScreenshots(
     val name: String,
     val description: String?,
     val platforms: String?,
-    val genres: String?,
+    val genres: List<Int>?,
     val released: String?,
     val rating: Double?,
     val backgroundImage: String?,

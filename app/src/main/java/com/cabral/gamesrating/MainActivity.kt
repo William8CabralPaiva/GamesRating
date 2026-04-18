@@ -20,24 +20,33 @@ import com.cabral.gamesrating.navigation.BottomNavigationBar
 import com.cabral.gamesrating.navigation.NavGraph
 import com.cabral.gamesrating.navigation.Routes
 import com.cabral.gamesrating.ui.theme.GamesRatingTheme
+import com.cabral.gamesrating.util.SettingsManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //com o hilt é a instancia viewModels
-    //private val sharedLoggedViewModel: GamesSharedViewModel by viewModels()
+    @Inject
+    lateinit var settingsManager: SettingsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
-            var isDarkTheme by remember { mutableStateOf(false) }
+            var isDarkTheme by remember { mutableStateOf(settingsManager.isDarkTheme()) }
             
-            // Obtém o idioma atual do sistema/app
-            val currentLanguage = remember {
-                AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "pt"
+            // Obtém o idioma atual inicial do manager
+            var currentLanguage by remember {
+                mutableStateOf(settingsManager.getLanguage())
+            }
+
+            // Aplica o idioma ao AppCompatDelegate se for diferente do atual do sistema na primeira vez
+            remember {
+                val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(currentLanguage)
+                AppCompatDelegate.setApplicationLocales(appLocale)
+                true
             }
 
             GamesRatingTheme(isDarkTheme) {
@@ -65,9 +74,14 @@ class MainActivity : AppCompatActivity() {
                             bottom = 72.dp
                         ),
                         isDarkTheme = isDarkTheme,
-                        onToggleTheme = { isDarkTheme = it },
+                        onToggleTheme = { 
+                            isDarkTheme = it 
+                            settingsManager.setDarkTheme(it)
+                        },
                         currentLanguage = currentLanguage,
                         onLanguageChange = { languageCode ->
+                            currentLanguage = languageCode
+                            settingsManager.setLanguage(languageCode)
                             val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(languageCode)
                             AppCompatDelegate.setApplicationLocales(appLocale)
                         }

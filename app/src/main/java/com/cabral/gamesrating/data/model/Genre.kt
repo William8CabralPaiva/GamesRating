@@ -6,6 +6,6 @@ data class Genre(
     val slug: String
 )
 
-fun List<Genre>.toGenreString(): String {
-    return this.joinToString(", ") { GenreTypes.fromSlug(it.slug).portugueseName  }
+fun List<Genre>.toGenreResList(): List<Int> {
+    return this.map { GenreTypes.fromSlug(it.slug).nameRes }
 }
