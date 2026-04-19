@@ -24,7 +24,9 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = false,
-                onToggleTheme = {}
+                onToggleTheme = {},
+                currentLanguage = "en",
+                onLanguageChange = {}
             )
         }
 
@@ -42,7 +44,9 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = {}
+                onToggleTheme = {},
+                currentLanguage = "en",
+                onLanguageChange = {}
             )
         }
 
@@ -61,7 +65,9 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = {}
+                onToggleTheme = {},
+                currentLanguage = "en",
+                onLanguageChange = {}
             )
         }
 
@@ -80,7 +86,9 @@ class SettingsScreenTest {
         composeTestRule.setContent {
             SettingsScreen(
                 isDarkTheme = false,
-                onToggleTheme = { themeToggledValue = it }
+                onToggleTheme = { themeToggledValue = it },
+                currentLanguage = "en",
+                onLanguageChange = {}
             )
         }
 

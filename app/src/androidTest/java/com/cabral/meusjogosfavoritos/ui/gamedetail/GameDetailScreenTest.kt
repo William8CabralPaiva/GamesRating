@@ -1,7 +1,13 @@
 package com.cabral.meusjogosfavoritos.ui.gamedetail
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import com.cabral.meusjogosfavoritos.R
 import com.cabral.meusjogosfavoritos.ui.model.GameDetailScreenshots
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -43,7 +49,7 @@ class GameDetailScreenTest {
                         name = gameName,
                         description = "Melhor RPG",
                         rating = 5.0,
-                        genres = "RPG",
+                        genres = listOf(R.string.genre_rpg),
                         platforms = "PS5",
                         released = "2015",
                         backgroundImage = "url",
@@ -78,9 +84,14 @@ class GameDetailScreenTest {
             GameDetailContent(
                 uiState = GamesUiState.Success(
                     GameDetailScreenshots(
-                        id = 1, name = "Game Test", description = "Desc",
-                        rating = 4.0, genres = "Ação", platforms = "PC",
-                        released = "2020", backgroundImage = "url_1",
+                        id = 1,
+                        name = "Game Test",
+                        description = "Desc",
+                        rating = 4.0,
+                        genres = listOf(R.string.genre_action),
+                        platforms = "PC",
+                        released = "2020",
+                        backgroundImage = "url_1",
                         screenshots = screenshots
                     )
                 )

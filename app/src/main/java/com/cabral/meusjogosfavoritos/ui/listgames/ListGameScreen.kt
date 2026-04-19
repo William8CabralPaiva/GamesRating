@@ -191,7 +191,7 @@ fun ListGamesEmpty(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = stringResource(R.string.empty_list),
-            modifier = modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp).testTag("empty_state_text")
         )
     }
 }

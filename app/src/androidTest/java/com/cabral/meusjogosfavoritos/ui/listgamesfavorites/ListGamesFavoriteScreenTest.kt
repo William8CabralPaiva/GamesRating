@@ -2,6 +2,7 @@ package com.cabral.meusjogosfavoritos.ui.listgamesfavorites
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.cabral.meusjogosfavoritos.R
 import com.cabral.meusjogosfavoritos.ui.model.GameUi
 import org.junit.Rule
 import org.junit.Test
@@ -23,7 +24,7 @@ class ListGamesFavoriteScreenTest {
     fun stateSuccess_shouldShowListWithItems() {
         val gameName = "The Witcher 3"
         val favoriteGames = listOf(
-            GameUi(1, gameName, "2015", "", 4.9, "RPG", true)
+            GameUi(1, gameName, "2015", "", 4.9, listOf(R.string.genre_rpg), true)
         )
 
         composeTestRule.setContent {
@@ -61,7 +62,7 @@ class ListGamesFavoriteScreenTest {
         var clickedId = -1
         val gameId = 1
         val favoriteGames = listOf(
-            GameUi(gameId, "Elden Ring", "2022", "", 4.9, "RPG", true)
+            GameUi(gameId, "Elden Ring", "2022", "", 4.9, listOf(R.string.genre_action), true)
         )
 
         composeTestRule.setContent {

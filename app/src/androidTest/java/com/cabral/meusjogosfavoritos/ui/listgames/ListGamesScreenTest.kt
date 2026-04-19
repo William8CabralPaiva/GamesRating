@@ -6,6 +6,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.cabral.meusjogosfavoritos.R
 import com.cabral.meusjogosfavoritos.ui.model.GameUi
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
@@ -60,7 +61,7 @@ class ListGamesScreenTest {
         
         composeTestRule.setContent {
             val games = createPagingData(
-                items = listOf(GameUi(1, gameName, "2022", "", 4.9, "Ação", false))
+                items = listOf(GameUi(1, gameName, "2022", "", 4.9, listOf(R.string.genre_action), false))
             ).collectAsLazyPagingItems()
 
             ListGamesContent(
