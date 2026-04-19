@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cabral.meusjogosfavoritos.domain.usecase.GetGameDetailByIdUseCase
 import com.cabral.meusjogosfavoritos.domain.usecase.SaveImageUseCase
+import com.cabral.meusjogosfavoritos.util.SettingsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class GameDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getGameDetailByIdUseCase: GetGameDetailByIdUseCase,
-    private val saveImageUseCase: SaveImageUseCase
+    private val saveImageUseCase: SaveImageUseCase,
+    private val settingsManager: SettingsManager
 ) : ViewModel() {
 
     private val _eventFlow = Channel<String>()
@@ -37,8 +39,9 @@ class GameDetailViewModel @Inject constructor(
     private fun fetchGames(id: Int) {
         viewModelScope.launch {
             _uiState.value = GamesUiState.Loading
+            val lang = settingsManager.getLanguage()
 
-            getGameDetailByIdUseCase(id)
+            getGameDetailByIdUseCase(id, lang)
                 .catch { exception ->
                     _uiState.value = GamesUiState.Error(exception.message ?: "Erro desconhecido")
                 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.cabral.meusjogosfavoritos.domain.usecase.GetGameDetailByIdUseCase
 import com.cabral.meusjogosfavoritos.domain.usecase.SaveImageUseCase
 import com.cabral.meusjogosfavoritos.ui.model.GameDetailScreenshots
+import com.cabral.meusjogosfavoritos.util.SettingsManager
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +26,15 @@ class GameDetailViewModelTest {
 
     private val getGameDetailByIdUseCase: GetGameDetailByIdUseCase = mockk()
     private val saveImageUseCase: SaveImageUseCase = mockk(relaxed = true)
+    private val settingsManager: SettingsManager = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: GameDetailViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
+        // Default behavior for language
+        every { settingsManager.getLanguage() } returns "pt"
     }
 
     @After
@@ -40,19 +44,25 @@ class GameDetailViewModelTest {
 
     @Test
     fun `fetchGames should update uiState to Success when use case returns data`() = runTest {
-        // Given
+        // GIVEN
         val gameId = 1
+        val lang = "pt"
         val mockGameDetail = mockk<GameDetailScreenshots>()
         val savedStateHandle = SavedStateHandle(mapOf("gameId" to gameId))
 
-        every { getGameDetailByIdUseCase(gameId) } returns flowOf(mockGameDetail)
+        every { settingsManager.getLanguage() } returns lang
+        every { getGameDetailByIdUseCase(gameId, lang) } returns flowOf(mockGameDetail)
 
-        // When
-        viewModel =
-            GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase, saveImageUseCase)
+        // WHEN
+        viewModel = GameDetailViewModel(
+            savedStateHandle,
+            getGameDetailByIdUseCase,
+            saveImageUseCase,
+            settingsManager
+        )
         advanceUntilIdle()
 
-        // Then
+        // THEN
         val currentState = viewModel.uiState.value
         assert(currentState is GamesUiState.Success)
         assertEquals(mockGameDetail, (currentState as GamesUiState.Success).game)
@@ -60,21 +70,27 @@ class GameDetailViewModelTest {
 
     @Test
     fun `fetchGames should update uiState to Error when use case throws exception`() = runTest {
-        // Given
+        // GIVEN
         val gameId = 1
+        val lang = "pt"
         val errorMessage = "Erro desconhecido"
         val savedStateHandle = SavedStateHandle(mapOf("gameId" to gameId))
 
-        every { getGameDetailByIdUseCase(gameId) } returns flow {
+        every { settingsManager.getLanguage() } returns lang
+        every { getGameDetailByIdUseCase(gameId, lang) } returns flow {
             throw Exception(errorMessage)
         }
 
-        // When
-        viewModel =
-            GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase, saveImageUseCase)
+        // WHEN
+        viewModel = GameDetailViewModel(
+            savedStateHandle,
+            getGameDetailByIdUseCase,
+            saveImageUseCase,
+            settingsManager
+        )
         advanceUntilIdle()
 
-        // Then
+        // THEN
         val currentState = viewModel.uiState.value
         assert(currentState is GamesUiState.Error)
         assertEquals(errorMessage, (currentState as GamesUiState.Error).message)
@@ -82,16 +98,23 @@ class GameDetailViewModelTest {
 
     @Test
     fun `init should set initial state to Loading`() = runTest {
-        // Given
+        // GIVEN
         val gameId = 1
+        val lang = "pt"
         val savedStateHandle = SavedStateHandle(mapOf("gameId" to gameId))
-        every { getGameDetailByIdUseCase(gameId) } returns flowOf(mockk())
+        
+        every { settingsManager.getLanguage() } returns lang
+        every { getGameDetailByIdUseCase(gameId, lang) } returns flowOf(mockk())
 
-        // When
-        viewModel =
-            GameDetailViewModel(savedStateHandle, getGameDetailByIdUseCase, saveImageUseCase)
+        // WHEN
+        viewModel = GameDetailViewModel(
+            savedStateHandle,
+            getGameDetailByIdUseCase,
+            saveImageUseCase,
+            settingsManager
+        )
 
-        // Then
+        // THEN
         assertEquals(GamesUiState.Loading, viewModel.uiState.value)
     }
 }

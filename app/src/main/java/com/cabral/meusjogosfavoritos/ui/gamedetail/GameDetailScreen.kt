@@ -161,7 +161,6 @@ fun GameDetailSuccess(
 ) {
     var selectedImage by remember { mutableStateOf(game.backgroundImage) }
 
-    // Resolve os gêneros para strings usando o contexto do Compose
     val genresString = game.genres?.map { stringResource(id = it) }?.joinToString(", ") ?: ""
 
     Column(

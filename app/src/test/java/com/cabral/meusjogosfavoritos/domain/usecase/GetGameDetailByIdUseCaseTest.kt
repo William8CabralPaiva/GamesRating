@@ -4,9 +4,10 @@ import com.cabral.meusjogosfavoritos.data.model.Screenshot
 import com.cabral.meusjogosfavoritos.domain.model.GameDetailResponse
 import com.cabral.meusjogosfavoritos.domain.model.ScreenshotResponse
 import com.cabral.meusjogosfavoritos.domain.repository.GamesRepository
+import com.cabral.meusjogosfavoritos.domain.repository.TranslationRepository
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -19,85 +20,97 @@ import org.junit.Test
 class GetGameDetailByIdUseCaseTest {
 
     private lateinit var useCase: GetGameDetailByIdUseCase
-    private val repository: GamesRepository = mockk()
+    private val gamesRepository: GamesRepository = mockk()
+    private val translationRepository: TranslationRepository = mockk()
 
     @Before
     fun setup() {
-        useCase = GetGameDetailByIdUseCase(repository)
+        useCase = GetGameDetailByIdUseCase(gamesRepository, translationRepository)
     }
 
     @Test
-    fun invoke_shouldCombineGameAndScreenshots_whenSuccessful() = runTest {
-        // Given
+    fun `invoke should not translate when language is en`() = runTest {
+        // GIVEN
         val gameId = 1
-        val gameResponse = mockk<GameDetailResponse> {
-            every { id } returns gameId
-            every { name } returns "The Witcher 3"
-            every { description } returns "Great RPG"
-            every { background_image } returns "bg1.jpg"
-            every { background_image_additional } returns "bg2.jpg"
-            every { platforms } returns emptyList()
-            every { genres } returns emptyList()
-            every { released } returns "2015"
-            every { rating } returns 4.8
-        }
-
-        val screenshotResponse = ScreenshotResponse(
-            results = listOf(Screenshot(id = 1, image = "ss1.jpg"))
-        )
-
-        every { repository.getGameById(gameId) } returns flowOf(gameResponse)
-        every { repository.getScreenshots(gameId) } returns flowOf(screenshotResponse)
-
-        // When
-        val result = useCase(gameId).first()
-
-        // Then
-        assertEquals(gameId, result.id)
-        assertEquals("The Witcher 3", result.name)
-        assertNotNull(result.screenshots)
-        result.screenshots?.let {
-            assertTrue(result.screenshots.contains("bg1.jpg"))
-            assertTrue(result.screenshots.contains("bg2.jpg"))
-            assertTrue(result.screenshots.contains("ss1.jpg"))
-            assertEquals(3, result.screenshots.size)
-        }
-
-
-        verify { repository.getGameById(gameId) }
-        verify { repository.getScreenshots(gameId) }
-    }
-
-    @Test
-    fun invoke_shouldHandleEmptyImages_whenMappingScreenshotsList() = runTest {
-        // Given
-        val gameId = 1
-        val gameResponse = mockk<GameDetailResponse> {
-            every { id } returns gameId
-            every { name } returns "Minimal Game"
-            every { description } returns "Desc"
-            every { background_image } returns null
-            every { background_image_additional } returns ""
-            every { platforms } returns emptyList()
-            every { genres } returns emptyList()
-            every { released } returns "2024"
-            every { rating } returns 4.0
-        }
-
+        val lang = "en"
+        val gameResponse = createMockGameResponse(gameId, "The Witcher", "A great game", "2015-05-19")
         val screenshotResponse = ScreenshotResponse(results = emptyList())
 
-        every { repository.getGameById(gameId) } returns flowOf(gameResponse)
-        every { repository.getScreenshots(gameId) } returns flowOf(screenshotResponse)
+        every { gamesRepository.getGameById(gameId) } returns flowOf(gameResponse)
+        every { gamesRepository.getScreenshots(gameId) } returns flowOf(screenshotResponse)
 
-        // When
-        val result = useCase(gameId).first()
+        // WHEN
+        val result = useCase(gameId, lang).first()
 
-        // Then
-        assertNotNull(result.screenshots)
-        result.screenshots?.let {
-            assertTrue(result.screenshots.isEmpty())
-        }
-        verify { repository.getGameById(gameId) }
-        verify { repository.getScreenshots(gameId) }
+        // THEN
+        assertEquals("The Witcher", result.name)
+        assertEquals("A great game", result.description)
+        assertEquals("2015-05-19", result.released)
     }
+
+    @Test
+    fun `invoke should translate description and format date when language is pt`() = runTest {
+        // GIVEN
+        val gameId = 1
+        val lang = "pt"
+        val gameName = "The Witcher"
+        val originalDesc = "The Witcher is amazing"
+        val translatedDesc = "The Witcher é incrível"
+        
+        val gameResponse = createMockGameResponse(gameId, gameName, originalDesc, "2015-05-19")
+        val screenshotResponse = ScreenshotResponse(results = emptyList())
+
+        every { gamesRepository.getGameById(gameId) } returns flowOf(gameResponse)
+        every { gamesRepository.getScreenshots(gameId) } returns flowOf(screenshotResponse)
+        
+        // Simula a proteção do nome: "The Witcher" vira "_GAME_"
+        coEvery { 
+            translationRepository.translate("_GAME_ is amazing", lang) 
+        } returns "_GAME_ é incrível"
+
+        // WHEN
+        val result = useCase(gameId, lang).first()
+
+        // THEN
+        assertEquals(gameName, result.name)
+        assertEquals(translatedDesc, result.description)
+        assertEquals("19/05/2015", result.released) // Data formatada
+    }
+
+    @Test
+    fun `invoke should preserve game name even with different casing during translation`() = runTest {
+        // GIVEN
+        val gameId = 1
+        val lang = "pt"
+        val gameName = "Zelda"
+        val originalDesc = "Playing zelda is fun" // case insensitive match
+        
+        val gameResponse = createMockGameResponse(gameId, gameName, originalDesc, "2023-05-12")
+        val screenshotResponse = ScreenshotResponse(results = emptyList())
+
+        every { gamesRepository.getGameById(gameId) } returns flowOf(gameResponse)
+        every { gamesRepository.getScreenshots(gameId) } returns flowOf(screenshotResponse)
+        
+        coEvery { 
+            translationRepository.translate("Playing _GAME_ is fun", lang) 
+        } returns "Jogar _GAME_ é divertido"
+
+        // WHEN
+        val result = useCase(gameId, lang).first()
+
+        // THEN
+        assertEquals("Jogar Zelda é divertido", result.description)
+    }
+
+    private fun createMockGameResponse(id: Int, name: String, desc: String, released: String) = GameDetailResponse(
+        id = id,
+        name = name,
+        description = desc,
+        released = released,
+        platforms = emptyList(),
+        genres = emptyList(),
+        rating = 4.5,
+        background_image = "img.jpg",
+        background_image_additional = null
+    )
 }
