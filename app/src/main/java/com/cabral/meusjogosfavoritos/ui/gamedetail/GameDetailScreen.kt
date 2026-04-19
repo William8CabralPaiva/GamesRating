@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -272,7 +273,11 @@ fun GameDetailSuccess(
             Spacer(modifier = Modifier.height(8.dp))
 
             game.released?.let {
-                Text(text = it, modifier = Modifier.testTag("game_released"))
+                Row {
+                    Text(text = stringResource(id = R.string.game_released), fontWeight = FontWeight.SemiBold)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(text = it, modifier = Modifier.testTag("game_released"))
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))

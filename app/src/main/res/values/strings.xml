@@ -10,6 +10,7 @@
     <string name="games">Jogos</string>
     <string name="favorite">Favoritos</string>
     <string name="settings">Configurações</string>
+    <string name="game_released">Data de Lançamento:</string>
     <string name="favorite_button">Botão para favoritar</string>
     <string name="dark_theme_enable">Ativar Tema Escuro</string>
     <string name="dark_theme">Tema Escuro</string>
