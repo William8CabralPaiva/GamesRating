@@ -20,17 +20,17 @@ plugins {
 }
 
 android {
-    namespace = "com.cabral.gamesrating"
+    namespace = "com.cabral.meusjogosfavoritos"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.cabral.gamesrating"
+        applicationId = "com.cabral.meusjogosfavoritos"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.cabral.gamesrating.CustomTestRunner"
+        testInstrumentationRunner = "com.cabral.meusjogosfavoritos.CustomTestRunner"
 
         // 2. Adicionando a chave ao BuildConfig
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
@@ -43,9 +43,19 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(localProperties.getProperty("RELEASE_STORE_FILE") ?: "release.jks")
+            storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -94,6 +104,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.splashscreen)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -123,6 +134,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
     implementation(libs.gson)
+
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     // --- Unit Tests (test) ---
     testImplementation(libs.junit)
