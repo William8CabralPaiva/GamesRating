@@ -17,6 +17,9 @@
     <string name="language">Idioma</string>
     <string name="english">English</string>
     <string name="portuguese">Português</string>
+    <string name="about">Sobre</string>
+    <string name="credits_rawg">Dados fornecidos por RAWG</string>
+    <string name="credits_translation">Traduções fornecidas por MyMemory</string>
 
     <!-- Gêneros -->
     <string name="genre_action">Ação</string>
